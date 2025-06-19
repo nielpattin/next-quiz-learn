@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany; // Add this line
 
 class Question extends Model
 {
@@ -59,5 +60,13 @@ class Question extends Model
     public function creator()
     {
         return $this->belongsTo(User::class, 'created_by');
+    }
+
+    /**
+     * Get the question attempts for the question.
+     */
+    public function questionAttempts(): HasMany
+    {
+        return $this->hasMany(QuestionAttempt::class);
     }
 }

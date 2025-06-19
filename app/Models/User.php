@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Relations\HasMany; // Add this line
 
 class User extends Authenticatable
 {
@@ -56,5 +57,21 @@ class User extends Authenticatable
             ->explode(' ')
             ->map(fn (string $name) => Str::of($name)->substr(0, 1))
             ->implode('');
+    }
+
+    /**
+     * Get the quiz sessions for the user.
+     */
+    public function quizSessions(): HasMany
+    {
+        return $this->hasMany(QuizSession::class);
+    }
+
+    /**
+     * Get the quizzes created by the user.
+     */
+    public function quizzes(): HasMany
+    {
+        return $this->hasMany(Quiz::class, 'created_by');
     }
 }

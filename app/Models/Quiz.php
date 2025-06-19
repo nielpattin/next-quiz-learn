@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany; // Add this line
 
 class Quiz extends Model
 {
@@ -20,6 +21,7 @@ class Quiz extends Model
         'difficulty_level',
         'category',
         'time_limit',
+        'is_public', // Add this line
     ];
 
     /**
@@ -32,6 +34,7 @@ class Quiz extends Model
         'time_limit' => 'integer',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
+        'is_public' => 'boolean', // Add this line
     ];
 
     /**
@@ -81,5 +84,13 @@ class Quiz extends Model
     public function removeQuestion($questionId)
     {
         $this->questions()->detach($questionId);
+    }
+
+    /**
+     * Get the quiz sessions for the quiz.
+     */
+    public function quizSessions(): HasMany
+    {
+        return $this->hasMany(QuizSession::class);
     }
 }

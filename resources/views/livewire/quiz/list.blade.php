@@ -75,8 +75,8 @@ new class extends Component {
 
 <div class="w-full">
     <div class="mb-6">
-        <h1 class="text-2xl font-bold text-gray-900 dark:text-white">My Quizzes</h1>
-        <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">Manage your quiz collection</p>
+        <h1 class="text-2xl font-bold text-indigo-800">My Quizzes</h1>
+        <p class="mt-1 text-sm text-indigo-600">Manage your quiz collection</p>
     </div>
 
     @if (session()->has('message'))
@@ -85,21 +85,21 @@ new class extends Component {
         </div>
     @endif
 
-    <div class="bg-white dark:bg-zinc-900 shadow rounded-lg">
-        <div class="p-6 border-b border-gray-200 dark:border-zinc-700">
+    <div class="bg-teal-50 shadow rounded-lg">
+        <div class="p-6 border-b border-teal-200">
             <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                 <div class="flex-1 max-w-lg">
                     <input 
                         wire:model.live="search" 
                         type="text" 
                         placeholder="Search quizzes..." 
-                        class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
+                        class="w-full px-3 py-2 border border-teal-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500 bg-white text-indigo-800"
                     >
                 </div>
                 <a 
                     wire:navigate 
                     href="{{ route('quizzes.create') }}" 
-                    class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                    class="inline-flex items-center px-4 py-2 bg-teal-500 hover:bg-teal-600 text-white font-medium rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500"
                 >
                     <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
@@ -110,10 +110,10 @@ new class extends Component {
         </div>
 
         <div class="overflow-x-auto">
-            <table class="min-w-full divide-y divide-gray-200 dark:divide-zinc-700">
-                <thead class="bg-gray-50 dark:bg-zinc-800">
+            <table class="min-w-full divide-y divide-teal-200">
+                <thead class="bg-teal-100">
                     <tr>
-                        <th wire:click="sortBy('title')" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider cursor-pointer hover:bg-gray-100 dark:hover:bg-zinc-700">
+                        <th wire:click="sortBy('title')" class="px-6 py-3 text-left text-xs font-medium text-indigo-600 uppercase tracking-wider cursor-pointer hover:bg-teal-200">
                             <div class="flex items-center space-x-1">
                                 <span>Title</span>
                                 @if ($sortBy === 'title')
@@ -127,9 +127,9 @@ new class extends Component {
                                 @endif
                             </div>
                         </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Questions</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Status</th>
-                        <th wire:click="sortBy('created_at')" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider cursor-pointer hover:bg-gray-100 dark:hover:bg-zinc-700">
+                        <th class="px-6 py-3 text-left text-xs font-medium text-indigo-600 uppercase tracking-wider">Questions</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-indigo-600 uppercase tracking-wider">Status</th>
+                        <th wire:click="sortBy('created_at')" class="px-6 py-3 text-left text-xs font-medium text-indigo-600 uppercase tracking-wider cursor-pointer hover:bg-teal-200">
                             <div class="flex items-center space-x-1">
                                 <span>Created</span>
                                 @if ($sortBy === 'created_at')
@@ -143,47 +143,54 @@ new class extends Component {
                                 @endif
                             </div>
                         </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Actions</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-indigo-600 uppercase tracking-wider">Actions</th>
                     </tr>
                 </thead>
-                <tbody class="bg-white dark:bg-zinc-900 divide-y divide-gray-200 dark:divide-zinc-700">
+                <tbody class="bg-white divide-y divide-teal-200">
                     @forelse ($this->getQuizzes() as $quiz)
-                        <tr class="hover:bg-gray-50 dark:hover:bg-zinc-800">
+                        <tr class="hover:bg-teal-50">
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div>
-                                    <div class="text-sm font-medium text-gray-900 dark:text-white">{{ $quiz->title }}</div>
+                                    <div class="text-sm font-medium text-indigo-800">{{ $quiz->title }}</div>
                                     @if ($quiz->description)
-                                        <div class="text-sm text-gray-500 dark:text-gray-400 truncate max-w-xs">{{ $quiz->description }}</div>
+                                        <div class="text-sm text-indigo-600 truncate max-w-xs">{{ $quiz->description }}</div>
                                     @endif
                                 </div>
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-indigo-800">
                                 {{ is_array($quiz->questions) ? count($quiz->questions) : 0 }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <button
                                     wire:click="toggleActive('{{ $quiz->id }}')"
-                                    class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $quiz->is_active ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200' }}"
+                                    class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $quiz->is_active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}"
                                 >
                                     {{ $quiz->is_active ? 'Active' : 'Inactive' }}
                                 </button>
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-indigo-600">
                                 {{ $quiz->created_at->format('M d, Y') }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                 <div class="flex items-center space-x-2">
-                                    <a 
+                                    <a
+                                        wire:navigate
+                                        href="{{ route('quiz.play', $quiz) }}"
+                                        class="text-green-600 hover:text-green-800"
+                                    >
+                                        Play
+                                    </a>
+<a
                                         wire:navigate
                                         href="{{ route('quizzes.edit', $quiz->id) }}"
-                                        class="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300"
+                                        class="text-indigo-600 hover:text-indigo-800"
                                     >
                                         Edit
                                     </a>
                                     <button
                                         wire:click="deleteQuiz('{{ $quiz->id }}')"
                                         onclick="return confirm('Are you sure you want to delete this quiz?')"
-                                        class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300"
+                                        class="text-red-600 hover:text-red-800"
                                     >
                                         Delete
                                     </button>
@@ -193,17 +200,17 @@ new class extends Component {
                     @empty
                         <tr>
                             <td colspan="5" class="px-6 py-12 text-center">
-                                <div class="text-gray-500 dark:text-gray-400">
-                                    <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <div class="text-indigo-600">
+                                    <svg class="mx-auto h-12 w-12 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
                                     </svg>
-                                    <h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-white">No quizzes</h3>
-                                    <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Get started by creating a new quiz.</p>
+                                    <h3 class="mt-2 text-sm font-medium text-indigo-800">No quizzes</h3>
+                                    <p class="mt-1 text-sm text-indigo-600">Get started by creating a new quiz.</p>
                                     <div class="mt-6">
-                                        <a 
-                                            wire:navigate 
-                                            href="{{ route('quizzes.create') }}" 
-                                            class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                                        <a
+                                            wire:navigate
+                                            href="{{ route('quizzes.create') }}"
+                                            class="inline-flex items-center px-4 py-2 bg-teal-500 hover:bg-teal-600 text-white font-medium rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500"
                                         >
                                             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
@@ -220,7 +227,7 @@ new class extends Component {
         </div>
 
         @if ($this->getQuizzes()->hasPages())
-            <div class="px-6 py-3 border-t border-gray-200 dark:border-zinc-700">
+            <div class="px-6 py-3 border-t border-teal-200">
                 {{ $this->getQuizzes()->links() }}
             </div>
         @endif

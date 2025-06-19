@@ -44,31 +44,31 @@ new class extends Component {
 
 <div class="w-full max-w-2xl mx-auto">
     <div class="mb-6">
-        <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Create New Quiz</h1>
-        <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">Start building your quiz by creating the first question</p>
+        <h1 class="text-2xl font-bold text-indigo-800">Create New Quiz</h1>
+        <p class="mt-1 text-sm text-indigo-600">Start building your quiz by creating the first question</p>
     </div>
 
     @if (session()->has('error'))
-        <div class="mb-4 bg-red-50 dark:bg-red-900 border border-red-200 dark:border-red-700 rounded-md p-4">
-            <p class="text-red-800 dark:text-red-200">{{ session('error') }}</p>
+        <div class="mb-4 bg-red-50 border border-red-200 rounded-md p-4">
+            <p class="text-red-800">{{ session('error') }}</p>
         </div>
     @endif
 
-    <div class="bg-white dark:bg-zinc-900 shadow rounded-lg p-8 text-center">
+    <div class="bg-teal-50 shadow rounded-lg p-8 text-center">
         <div class="mb-6">
-            <svg class="mx-auto h-16 w-16 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="mx-auto h-16 w-16 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
             </svg>
         </div>
         
-        <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">Ready to create your quiz?</h3>
-        <p class="text-gray-600 dark:text-gray-400 mb-6">We'll start with a basic quiz template and then help you add your first question.</p>
+        <h3 class="text-lg font-medium text-indigo-800 mb-2">Ready to create your quiz?</h3>
+        <p class="text-indigo-600 mb-6">We'll start with a basic quiz template and then help you add your first question.</p>
         
         <div class="flex items-center justify-center space-x-4">
-            <a wire:navigate href="{{ route('quizzes.index') }}" class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+            <a wire:navigate href="{{ route('quizzes.index') }}" class="px-4 py-2 border border-indigo-300 rounded-md shadow-sm text-sm font-medium text-indigo-700 bg-white hover:bg-indigo-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500">
                 Cancel
             </a>
-            <button wire:click="createQuiz" class="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+            <button wire:click="createQuiz" class="px-6 py-2 bg-teal-500 hover:bg-teal-600 text-white font-medium rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500">
                 <span wire:loading.remove>Create Quiz & Add First Question</span>
                 <span wire:loading>Creating...</span>
             </button>

@@ -1,4 +1,7 @@
 @import 'tailwindcss';
+html {
+    background-color: #eff6ff; /* bg-blue-50 */
+}
 
 /* Custom theme variables (if needed, move to tailwind.config.js instead) */
 :root {
