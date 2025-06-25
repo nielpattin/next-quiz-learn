@@ -35,13 +35,6 @@
                             @if($answerLocked) disabled @endif
                         >
                             {{ $option->option_text }}
-                            <span class="text-xs block mt-1">
-                                Option ID: {{ $option->id }},
-                                SelectedOptionId: {{ $selectedOptionId }},
-                                isSelected: {{ $isSelected ? 'true' : 'false' }},
-                                isCorrect: {{ $isCorrect ? 'true' : 'false' }},
-                                answerLocked: {{ $answerLocked ? 'true' : 'false' }}
-                            </span>
                         </button>
                     @endforeach
                 </div>
