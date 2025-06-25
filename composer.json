@@ -16,13 +16,9 @@
         "livewire/volt": "^1.7.0"
     },
     "require-dev": {
-        "fakerphp/faker": "^1.23",
         "laravel/pail": "^1.2.2",
         "laravel/pint": "^1.18",
-        "laravel/sail": "^1.41",
-        "mockery/mockery": "^1.6",
-        "nunomaduro/collision": "^8.6",
-        "phpunit/phpunit": "^11.5.3"
+        "laravel/sail": "^1.41"
     },
     "autoload": {
         "psr-4": {
@@ -33,7 +29,6 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Tests\\": "tests/"
         }
     },
     "scripts": {
@@ -54,10 +49,6 @@
         "dev": [
             "Composer\\Config::disableProcessTimeout",
             "npx concurrently -c \"#93c5fd,#c4b5fd,#fb7185,#fdba74\" \"php artisan serve\" \"php artisan queue:listen --tries=1\" \"php artisan pail --timeout=0\" \"npm run dev\" --names=server,queue,logs,vite"
-        ],
-        "test": [
-            "@php artisan config:clear --ansi",
-            "@php artisan test"
         ]
     },
     "extra": {

@@ -12,7 +12,6 @@ new class extends Component {
     public string $category = '';
     public string $difficulty_level = 'medium';
     public int $time_limit = 30;
-    public bool $is_active = true;
     public $questions;
 
     public function mount(Quiz $quiz): void
@@ -36,7 +35,6 @@ new class extends Component {
         $this->category = $this->quiz->category ?? '';
         $this->difficulty_level = $this->quiz->difficulty_level;
         $this->time_limit = $this->quiz->time_limit;
-        $this->is_active = $this->quiz->is_active;
     }
 
     /**
@@ -85,41 +83,35 @@ new class extends Component {
     {
         $validated = $this->validate([
             'title' => 'required|string|max:255',
-            'description' => 'nullable|string|max:1000',
+            'description' => 'nullable|string|max:200',
             'category' => 'nullable|string|max:100',
             'difficulty_level' => 'required|in:easy,medium,hard',
             'time_limit' => 'required|integer|min:1|max:180',
-            'is_active' => 'boolean',
         ]);
 
         $this->quiz->update($validated);
 
-        session()->flash('message', 'Quiz updated successfully!');
+        $this->dispatch('toast', message: 'Quiz updated successfully!', type: 'success');
     }
 }; ?>
 
 <div class="w-full max-w-4xl mx-auto">
     <div class="mb-6">
-        <nav class="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400 mb-2">
-            <a wire:navigate href="{{ route('quizzes.index') }}" class="hover:text-gray-900 dark:hover:text-gray-200">Quizzes</a>
+        <nav class="flex items-center space-x-2 text-sm text-indigo-600 mb-2">
+            <a wire:navigate href="{{ route('quizzes.index') }}" class="hover:text-indigo-800">Quizzes</a>
             <span>/</span>
-            <span class="text-gray-900 dark:text-gray-200">{{ $quiz->title }}</span>
+            <span class="text-indigo-800">{{ $quiz->title }}</span>
         </nav>
-        <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Edit Quiz</h1>
-        <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">Update your quiz details and manage questions</p>
+        <h1 class="text-2xl font-bold text-indigo-800">Edit Quiz</h1>
+        <p class="mt-1 text-sm text-indigo-600">Update your quiz details and manage questions</p>
     </div>
 
-    @if (session()->has('message'))
-        <div class="mb-4 bg-green-50 dark:bg-green-900 border border-green-200 dark:border-green-700 rounded-md p-4">
-            <p class="text-green-800 dark:text-green-200">{{ session('message') }}</p>
-        </div>
-    @endif
 
     <form wire:submit="updateQuiz" class="mb-8">
-        <div class="bg-white dark:bg-zinc-900 shadow rounded-lg p-6">
+        <div class="bg-teal-50 shadow rounded-lg p-6">
             <div class="flex items-center justify-between mb-4">
-                <h2 class="text-lg font-medium text-gray-900 dark:text-white">Quiz Information</h2>
-                <button type="submit" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                <h2 class="text-lg font-medium text-indigo-800">Quiz Information</h2>
+                <button type="submit" class="px-4 py-2 bg-teal-500 hover:bg-teal-600 text-white text-sm font-medium rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500">
                     <span wire:loading.remove wire:target="updateQuiz">Save Changes</span>
                     <span wire:loading wire:target="updateQuiz">Saving...</span>
                 </button>
@@ -127,26 +119,29 @@ new class extends Component {
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="md:col-span-2">
-                    <label for="title" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Title *</label>
-                    <input wire:model="title" id="title" type="text" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white">
+                    <label for="title" class="block text-sm font-medium text-indigo-700">Title *</label>
+                    <input wire:model="title" id="title" type="text" class="mt-1 block w-full px-3 py-2 border border-indigo-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500 bg-white text-indigo-800">
                     @error('title') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                 </div>
 
                 <div class="md:col-span-2">
-                    <label for="description" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Description</label>
-                    <textarea wire:model="description" id="description" rows="3" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"></textarea>
+                    <label for="description" class="block text-sm font-medium text-indigo-700">Description</label>
+                    <textarea wire:model="description" id="description" rows="3" maxlength="200" class="mt-1 block w-full px-3 py-2 border border-indigo-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500 bg-white text-indigo-800"></textarea>
+                    <div class="flex justify-end mt-1 text-xs text-indigo-600">
+                        <span x-text="$wire.description.length"></span>/200
+                    </div>
                     @error('description') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                 </div>
 
                 <div>
-                    <label for="category" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Category</label>
-                    <input wire:model="category" id="category" type="text" placeholder="e.g., Science, History, Math" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white">
+                    <label for="category" class="block text-sm font-medium text-indigo-700">Category</label>
+                    <input wire:model="category" id="category" type="text" placeholder="e.g., Science, History, Math" class="mt-1 block w-full px-3 py-2 border border-indigo-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500 bg-white text-indigo-800">
                     @error('category') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                 </div>
 
                 <div>
-                    <label for="difficulty_level" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Difficulty Level *</label>
-                    <select wire:model="difficulty_level" id="difficulty_level" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white">
+                    <label for="difficulty_level" class="block text-sm font-medium text-indigo-700">Difficulty Level *</label>
+                    <select wire:model="difficulty_level" id="difficulty_level" class="mt-1 block w-full px-3 py-2 border border-indigo-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500 bg-white text-indigo-800">
                         <option value="easy">Easy</option>
                         <option value="medium">Medium</option>
                         <option value="hard">Hard</option>
@@ -155,23 +150,19 @@ new class extends Component {
                 </div>
 
                 <div>
-                    <label for="time_limit" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Time Limit (minutes) *</label>
-                    <input wire:model="time_limit" id="time_limit" type="number" min="1" max="180" class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white">
+                    <label for="time_limit" class="block text-sm font-medium text-indigo-700">Time Limit (minutes) *</label>
+                    <input wire:model="time_limit" id="time_limit" type="number" min="1" max="180" class="mt-1 block w-full px-3 py-2 border border-indigo-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500 bg-white text-indigo-800">
                     @error('time_limit') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                 </div>
 
-                <div class="flex items-center">
-                    <input wire:model="is_active" id="is_active" type="checkbox" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
-                    <label for="is_active" class="ml-2 block text-sm text-gray-700 dark:text-gray-300">Active (visible to users)</label>
-                </div>
             </div>
         </div>
     </form>
 
-    <div class="bg-white dark:bg-zinc-900 shadow rounded-lg p-6">
+    <div class="bg-teal-50 shadow rounded-lg p-6">
         <div class="flex items-center justify-between mb-6">
-            <h2 class="text-lg font-medium text-gray-900 dark:text-white">{{ count($questions) }} Questions</h2>
-            <button type="button" wire:click="addQuestion" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+            <h2 class="text-lg font-medium text-indigo-800">{{ count($questions) }} Questions</h2>
+            <button type="button" wire:click="addQuestion" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-teal-500 hover:bg-teal-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500">
                 <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                 </svg>
@@ -182,18 +173,18 @@ new class extends Component {
         @if (count($questions) > 0)
             <div class="space-y-4">
                 @foreach ($questions as $index => $question)
-                    <div class="border border-gray-200 dark:border-gray-600 rounded-lg p-4 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
+                    <div class="border border-teal-200 rounded-lg p-4 hover:bg-teal-50 transition-colors">
                         <div class="flex items-start justify-between">
                             <div class="flex-1">
                                 <div class="flex items-center space-x-3 mb-2">
-                                    <span class="text-sm font-medium text-gray-500 dark:text-gray-400">Question {{ $index + 1 }}</span>
+                                    <span class="text-sm font-medium text-indigo-600">Question {{ $index + 1 }}</span>
                                     <span class="px-2 py-1 text-xs font-medium rounded-full
-                                        {{ $question->type === 'multiple_choice' ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200' : 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' }}">
+                                        {{ $question->type === 'multiple_choice' ? 'bg-teal-100 text-teal-800' : 'bg-green-100 text-green-800' }}">
                                         {{ $question->type === 'multiple_choice' ? 'Multiple Choice' : 'True/False' }}
                                     </span>
                                 </div>
-                                <p class="text-gray-900 dark:text-gray-100 font-medium mb-2">{{ $question->question }}</p>
-                                <div class="text-sm text-gray-600 dark:text-gray-400">
+                                <p class="text-indigo-800 font-medium mb-2">{{ $question->question }}</p>
+                                <div class="text-sm text-indigo-600">
                                     @if ($question->options)
                                         <div class="grid grid-cols-2 gap-2">
                                             @foreach ($question->options as $optionIndex => $option)
@@ -214,12 +205,12 @@ new class extends Component {
                             </div>
                             <div class="flex items-center space-x-2">
                                 <button wire:click="editQuestion('{{ $question->id }}')"
-                                        class="px-3 py-1.5 text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 font-medium">
+                                        class="px-3 py-1.5 text-sm text-indigo-600 hover:text-indigo-800 font-medium">
                                     Edit
                                 </button>
                                 <button wire:click="deleteQuestion('{{ $question->id }}')"
                                         wire:confirm="Are you sure you want to delete this question?"
-                                        class="px-3 py-1.5 text-sm text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300 font-medium">
+                                        class="px-3 py-1.5 text-sm text-red-600 hover:text-red-800 font-medium">
                                     Delete
                                 </button>
                             </div>
@@ -247,13 +238,8 @@ new class extends Component {
     </div>
 
     <div class="mt-6 flex items-center justify-between">
-        <a wire:navigate href="{{ route('quizzes.index') }}" class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-            ← Back to Quizzes
-        </a>
+        
         @if (count($questions) > 0)
-            <span class="text-sm text-gray-600 dark:text-gray-400">
-                Quiz is {{ $quiz->is_active ? 'active' : 'inactive' }} with {{ count($questions) }} question{{ count($questions) === 1 ? '' : 's' }}
-            </span>
         @endif
     </div>
 </div>

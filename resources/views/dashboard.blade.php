@@ -3,7 +3,7 @@ use App\Models\Quiz;
 use Illuminate\Support\Facades\Auth;
 
 $totalQuizzes = Quiz::where('created_by', Auth::id())->count();
-$activeQuizzes = Quiz::where('created_by', Auth::id())->where('is_active', true)->count();
+$publicQuizzes = Quiz::where('is_public', true)->count();
 $recentQuizzes = Quiz::where('created_by', Auth::id())
     ->orderBy('created_at', 'desc')
     ->limit(5)
@@ -46,8 +46,8 @@ $recentQuizzes = Quiz::where('created_by', Auth::id())
                         </div>
                         <div class="ml-5 w-0 flex-1">
                             <dl>
-                                <dt class="text-sm font-medium text-indigo-600 truncate">Active Quizzes</dt>
-                                <dd class="text-lg font-medium text-indigo-800">{{ $activeQuizzes }}</dd>
+                                <dt class="text-sm font-medium text-indigo-600 truncate">Public Quizzes</dt>
+                                <dd class="text-lg font-medium text-indigo-800">{{ $publicQuizzes }}</dd>
                             </dl>
                         </div>
                     </div>
@@ -125,9 +125,6 @@ $recentQuizzes = Quiz::where('created_by', Auth::id())
                             <div class="mt-1 flex items-center space-x-4 text-sm text-indigo-600">
                                 <span>{{ is_array($quiz->questions) ? count($quiz->questions) : 0 }} questions</span>
                                 <span>{{ $quiz->created_at->diffForHumans() }}</span>
-                                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium {{ $quiz->is_active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
-                                    {{ $quiz->is_active ? 'Active' : 'Inactive' }}
-                                </span>
                             </div>
                         </div>
                         <div class="flex items-center space-x-2">

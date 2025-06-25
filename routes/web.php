@@ -17,7 +17,6 @@ Route::middleware(['auth'])->group(function () {
     Volt::route('quizzes/create', 'quiz.create')->name('quizzes.create');
     Volt::route('quizzes/{quiz}/edit', 'quiz.edit')->name('quizzes.edit');
 // Quiz browsing and playing
-    Volt::route('quizzes/{quiz}/play', 'play-quiz')->name('quiz.play');
     
     // Question management routes
     Volt::route('quizzes/{quiz}/questions/create', 'question.create')->name('questions.create');

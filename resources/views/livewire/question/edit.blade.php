@@ -71,7 +71,7 @@ new class extends Component {
             'options' => 'required|array|min:2',
             'options.*' => 'required|string|min:1|max:200',
             'correct_answer' => 'required|integer|min:0',
-            'explanation' => 'nullable|string|max:500'
+            'explanation' => 'nullable|string|max:200'
         ]);
 
         // Validate correct answer is within bounds
@@ -126,16 +126,16 @@ new class extends Component {
 
 <div class="w-full max-w-3xl mx-auto">
     <div class="mb-6">
-        <nav class="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400 mb-2">
-            <a wire:navigate href="{{ route('quizzes.index') }}" class="hover:text-gray-900 dark:hover:text-gray-200">Quizzes</a>
+        <nav class="flex items-center space-x-2 text-sm text-gray-900 mb-2">
+            <a wire:navigate href="{{ route('quizzes.index') }}" class="hover:text-gray-900">Quizzes</a>
             <span>/</span>
-            <a wire:navigate href="{{ route('quizzes.edit', $quiz) }}" class="hover:text-gray-900 dark:hover:text-gray-200">{{ $quiz->title }}</a>
+            <a wire:navigate href="{{ route('quizzes.edit', $quiz) }}" class="hover:text-gray-900">{{ $quiz->title }}</a>
             <span>/</span>
-            <span class="text-gray-900 dark:text-gray-200">Edit Question</span>
+            <span class="text-gray-900">Edit Question</span>
         </nav>
         <div class="flex items-center justify-between">
             <div>
-                <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Edit Question</h1>
+                <h1 class="text-2xl font-bold text-gray-900">Edit Question</h1>
                 <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">Update question for "{{ $quiz->title }}"</p>
             </div>
             <button wire:click="updateQuestion" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
@@ -152,26 +152,26 @@ new class extends Component {
     @endif
 
     <form wire:submit="updateQuestion" class="space-y-6">
-        <div class="bg-white dark:bg-zinc-900 shadow rounded-lg p-6">
+        <div class="shadow rounded-lg p-6">
             <div class="space-y-6">
                 <div>
-                    <label for="questionText" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Question Text *</label>
-                    <textarea wire:model="questionText" id="questionText" rows="3" placeholder="Enter your question here..." class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"></textarea>
+                    <label for="questionText" class="block text-sm font-medium">Question Text *</label>
+                    <textarea wire:model="questionText" id="questionText" rows="3" placeholder="Enter your question here..." class="mt-1 block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 bg-white text-gray-900"></textarea>
                     @error('questionText') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                 </div>
-
+    
                 <div>
-                    <label for="type" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Question Type *</label>
-                    <select wire:model.live="type" id="type" class="mt-1 block w-40 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white">
+                    <label for="type" class="block text-sm font-medium">Question Type *</label>
+                    <select wire:model.live="type" id="type" class="mt-1 block w-40 px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 bg-white text-gray-900">
                         <option value="multiple_choice">Multiple Choice</option>
                         <option value="true_false">True/False</option>
                     </select>
                     @error('type') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                 </div>
-
+    
                 <div>
                     <div class="flex items-center justify-between mb-3">
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Answer Options *</label>
+                        <label class="block text-sm font-medium">Answer Options *</label>
                         @if ($type === 'multiple_choice' && count($options) < 6)
                             <button type="button" wire:click="addOption" class="text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 font-medium">
                                 + Add Option
@@ -181,15 +181,15 @@ new class extends Component {
                     
                     @foreach ($options as $optionIndex => $option)
                         <div class="flex items-center space-x-3 mb-3">
-                            <input type="radio" 
-                                   name="correct_answer" 
-                                   wire:click="$set('correct_answer', {{ $optionIndex }})" 
-                                   @checked($correct_answer == $optionIndex) 
-                                   class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300">
-                            <input wire:model="options.{{ $optionIndex }}" 
-                                   type="text" 
-                                   placeholder="Option {{ $optionIndex + 1 }}" 
-                                   class="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white">
+                            <input type="radio"
+                                   name="correct_answer"
+                                   wire:click="$set('correct_answer', {{ $optionIndex }})"
+                                   @checked($correct_answer == $optionIndex)
+                                   class="h-4 w-4 text-blue-600 focus:ring-blue-500 bg-white">
+                            <input wire:model="options.{{ $optionIndex }}"
+                                                                                                                                                                                                                                           type="text"
+                                                                                                                                                                                                                                           placeholder="Option {{ $optionIndex + 1 }}"
+                                                                                                                                                                                                                                           class="flex-1 px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 bg-white text-gray-900">
                             @if ($type === 'multiple_choice' && count($options) > 2)
                                 <button type="button" wire:click="removeOption({{ $optionIndex }})" class="text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300 p-1">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -201,26 +201,26 @@ new class extends Component {
                         @error("options.{$optionIndex}") <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                     @endforeach
                     @error('correct_answer') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-2">Select the radio button next to the correct answer</p>
+                    <p class="text-xs text-gray-500 mt-2">Select the radio button next to the correct answer</p>
                 </div>
-
+    
                 <div>
-                    <label for="explanation" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Explanation (optional)</label>
-                    <textarea wire:model="explanation" id="explanation" rows="3" placeholder="Explain why this is the correct answer..." class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"></textarea>
+                    <label for="explanation" class="block text-sm font-medium">Explanation (optional)</label>
+                    <textarea wire:model="explanation" id="explanation" rows="3" maxlength="200" placeholder="Explain why this is the correct answer..." class="mt-1 block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 bg-white text-gray-900"></textarea>
                     @error('explanation') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                 </div>
             </div>
         </div>
-
+    
         <div class="flex items-center justify-between">
             <div class="flex items-center space-x-4">
-                <a wire:navigate href="{{ route('quizzes.edit', $quiz) }}" class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                <a wire:navigate href="{{ route('quizzes.edit', $quiz) }}" class="px-4 py-2 rounded-md shadow-sm text-sm font-medium dark:bg-zinc-900 dark:text-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                     Back to Quiz
                 </a>
-                <button type="button" 
-                        wire:click="deleteQuestion" 
+                <button type="button"
+                        wire:click="deleteQuestion"
                         wire:confirm="Are you sure you want to delete this question? This action cannot be undone."
-                        class="px-4 py-2 border border-red-300 dark:border-red-600 rounded-md shadow-sm text-sm font-medium text-red-700 dark:text-red-300 bg-white dark:bg-red-900/20 hover:bg-red-50 dark:hover:bg-red-900/30 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                        class="px-4 py-2 border border-red-300 rounded-md shadow-sm text-sm font-medium text-red-700 dark:bg-zinc-900 dark:text-white hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
                     <span wire:loading.remove wire:target="deleteQuestion">Delete Question</span>
                     <span wire:loading wire:target="deleteQuestion">Deleting...</span>
                 </button>

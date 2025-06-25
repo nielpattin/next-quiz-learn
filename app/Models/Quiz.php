@@ -17,7 +17,6 @@ class Quiz extends Model
         'title',
         'description',
         'created_by',
-        'is_active',
         'difficulty_level',
         'category',
         'time_limit',
@@ -30,7 +29,6 @@ class Quiz extends Model
      * @var array<string, string>
      */
     protected $casts = [
-        'is_active' => 'boolean',
         'time_limit' => 'integer',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',

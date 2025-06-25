@@ -12,11 +12,20 @@ new class extends Component {
     public string $sortBy = 'created_at';
     public string $sortDirection = 'desc';
 
+    protected $listeners = ['quiz-updated' => 'refreshQuizzes', 'quiz-deleted' => 'refreshQuizzes'];
+
+    public function refreshQuizzes()
+    {
+        $this->dispatch('refresh-quizzes');
+        $this->dispatch('toast', message: 'Quiz updated successfully.', type: 'success');
+    }
+
     /**
      */
     public function getQuizzes()
     {
         return Quiz::where('created_by', Auth::id())
+            ->withCount('questions')
             ->when($this->search, function ($query) {
                 $query->where(function ($q) {
                     $q->where('title', 'like', '%' . $this->search . '%')
@@ -53,20 +62,6 @@ new class extends Component {
         }
     }
 
-    /**
-     */
-    public function toggleActive($quizId)
-    {
-        $quiz = Quiz::where('id', $quizId)
-            ->where('created_by', Auth::id())
-            ->first();
-
-        if ($quiz) {
-            $quiz->update(['is_active' => !$quiz->is_active]);
-            session()->flash('message', 'Quiz status updated successfully.');
-        }
-    }
-
     public function updatedSearch()
     {
         $this->resetPage();
@@ -79,11 +74,6 @@ new class extends Component {
         <p class="mt-1 text-sm text-indigo-600">Manage your quiz collection</p>
     </div>
 
-    @if (session()->has('message'))
-        <div class="mb-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded-md">
-            {{ session('message') }}
-        </div>
-    @endif
 
     <div class="bg-teal-50 shadow rounded-lg">
         <div class="p-6 border-b border-teal-200">
@@ -109,121 +99,56 @@ new class extends Component {
             </div>
         </div>
 
-        <div class="overflow-x-auto">
-            <table class="min-w-full divide-y divide-teal-200">
-                <thead class="bg-teal-100">
-                    <tr>
-                        <th wire:click="sortBy('title')" class="px-6 py-3 text-left text-xs font-medium text-indigo-600 uppercase tracking-wider cursor-pointer hover:bg-teal-200">
-                            <div class="flex items-center space-x-1">
-                                <span>Title</span>
-                                @if ($sortBy === 'title')
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        @if ($sortDirection === 'asc')
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
-                                        @else
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 15l-4 4-4-4m0-6l4-4 4 4"></path>
-                                        @endif
-                                    </svg>
-                                @endif
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
+            @forelse ($this->getQuizzes() as $quiz)
+                <div class="bg-white rounded-lg shadow-md border border-teal-100 hover:shadow-lg transition-shadow duration-200">
+                    <div class="p-4 border-b border-teal-200">
+                        <h3 class="text-lg font-semibold text-indigo-800">{{ $quiz->title }}</h3>
+                        @if ($quiz->description)
+                            <p class="mt-1 text-sm text-indigo-600 line-clamp-2 overflow-hidden">{{ $quiz->description }}</p>
+                        @endif
+                    </div>
+                    
+                    <div class="p-4">
+                        <div class="flex items-center justify-between text-sm text-indigo-800 mb-2">
+                            <span>Questions: {{ $quiz->questions_count }}</span>
+                            <span>{{ $quiz->created_at->format('M d, Y') }}</span>
+                        </div>
+                        
+                        <div class="flex items-center justify-between mt-4">
+                            <div class="flex items-center justify-between">
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $quiz->is_public ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-800' }}">
+                                    {{ $quiz->is_public ? 'Public' : 'Private' }}
+                                </span>
+                                
+                                <livewire:quiz.quiz-actions :quiz="$quiz" wire:key="quiz-actions-{{ $quiz->id }}" class="cursor-pointer" />
                             </div>
-                        </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-indigo-600 uppercase tracking-wider">Questions</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-indigo-600 uppercase tracking-wider">Status</th>
-                        <th wire:click="sortBy('created_at')" class="px-6 py-3 text-left text-xs font-medium text-indigo-600 uppercase tracking-wider cursor-pointer hover:bg-teal-200">
-                            <div class="flex items-center space-x-1">
-                                <span>Created</span>
-                                @if ($sortBy === 'created_at')
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        @if ($sortDirection === 'asc')
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
-                                        @else
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 15l-4 4-4-4m0-6l4-4 4 4"></path>
-                                        @endif
-                                    </svg>
-                                @endif
-                            </div>
-                        </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-indigo-600 uppercase tracking-wider">Actions</th>
-                    </tr>
-                </thead>
-                <tbody class="bg-white divide-y divide-teal-200">
-                    @forelse ($this->getQuizzes() as $quiz)
-                        <tr class="hover:bg-teal-50">
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div>
-                                    <div class="text-sm font-medium text-indigo-800">{{ $quiz->title }}</div>
-                                    @if ($quiz->description)
-                                        <div class="text-sm text-indigo-600 truncate max-w-xs">{{ $quiz->description }}</div>
-                                    @endif
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-indigo-800">
-                                {{ is_array($quiz->questions) ? count($quiz->questions) : 0 }}
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <button
-                                    wire:click="toggleActive('{{ $quiz->id }}')"
-                                    class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $quiz->is_active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}"
-                                >
-                                    {{ $quiz->is_active ? 'Active' : 'Inactive' }}
-                                </button>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-indigo-600">
-                                {{ $quiz->created_at->format('M d, Y') }}
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                <div class="flex items-center space-x-2">
-                                    <a
-                                        wire:navigate
-                                        href="{{ route('quiz.play', $quiz) }}"
-                                        class="text-green-600 hover:text-green-800"
-                                    >
-                                        Play
-                                    </a>
-<a
-                                        wire:navigate
-                                        href="{{ route('quizzes.edit', $quiz->id) }}"
-                                        class="text-indigo-600 hover:text-indigo-800"
-                                    >
-                                        Edit
-                                    </a>
-                                    <button
-                                        wire:click="deleteQuiz('{{ $quiz->id }}')"
-                                        onclick="return confirm('Are you sure you want to delete this quiz?')"
-                                        class="text-red-600 hover:text-red-800"
-                                    >
-                                        Delete
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="5" class="px-6 py-12 text-center">
-                                <div class="text-indigo-600">
-                                    <svg class="mx-auto h-12 w-12 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
-                                    </svg>
-                                    <h3 class="mt-2 text-sm font-medium text-indigo-800">No quizzes</h3>
-                                    <p class="mt-1 text-sm text-indigo-600">Get started by creating a new quiz.</p>
-                                    <div class="mt-6">
-                                        <a
-                                            wire:navigate
-                                            href="{{ route('quizzes.create') }}"
-                                            class="inline-flex items-center px-4 py-2 bg-teal-500 hover:bg-teal-600 text-white font-medium rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500"
-                                        >
-                                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-                                            </svg>
-                                            Create Quiz
-                                        </a>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
+                        </div>
+                    </div>
+                </div>
+            @empty
+                <div class="col-span-full text-center py-12">
+                    <div class="text-indigo-600">
+                        <svg class="mx-auto h-12 w-12 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                        </svg>
+                        <h3 class="mt-2 text-sm font-medium text-indigo-800">No quizzes</h3>
+                        <p class="mt-1 text-sm text-indigo-600">Get started by creating a new quiz.</p>
+                        <div class="mt-6">
+                            <a
+                                wire:navigate
+                                href="{{ route('quizzes.create') }}"
+                                class="inline-flex items-center px-4 py-2 bg-teal-500 hover:bg-teal-600 text-white font-medium rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500"
+                            >
+                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                                </svg>
+                                Create Quiz
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            @endforelse
         </div>
 
         @if ($this->getQuizzes()->hasPages())
