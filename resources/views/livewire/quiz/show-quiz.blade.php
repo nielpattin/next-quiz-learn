@@ -2,7 +2,7 @@
     <div class="flex items-center justify-between mb-4">
         <h1 class="text-3xl font-bold">{{ $quiz->title }}</h1>
         <a href="{{ route('quizzes.play', $quiz->id) }}"
-           class="inline-flex items-center px-4 py-2 rounded-md font-semibold text-sm button-primary-background text-primary-button-foreground hover:button-primary-background/90 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-button/50"
+           class="inline-flex items-center px-4 py-2 rounded-md font-semibold text-sm bg-[var(--button-primary-background)] text-[var(--button-primary-foreground)] hover:button-primary-background/90 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-button/50"
         >Play</a>
     </div>
     <p class="text-lg text-foreground">{{ $quiz->description }}</p>

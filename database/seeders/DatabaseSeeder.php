@@ -3,8 +3,11 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Hash;
+use App\Models\Quiz;
+use App\Models\Question;
+use App\Models\QuestionOption;
 
 class DatabaseSeeder extends Seeder
 {
@@ -13,29 +16,52 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $users = User::factory(3)->create();
-
-        $users->each(function ($user) {
-            $quizzes = \App\Models\Quiz::factory(1)->create(['created_by' => $user->id]);
-            $quizzes->each(function ($quiz) use ($user) {
-                $questions = \App\Models\Question::factory(3)->create([
-                    'quiz_id' => $quiz->id,
-                    'created_by' => $user->id,
-                ]);
-                $questions->each(function ($question) {
-                    $options = \App\Models\QuestionOption::factory(4)->create([
-                        'question_id' => $question->id,
-                    ]);
-                    // Mark one random option as correct
-                    $options->random(1)->first()->update(['is_correct' => true]);
-                });
-            });
-        });
-
-        User::create([
-            'name' => 'User01',
-            'email' => 'test@gmail.com',
-            'password' => Hash::make('123123asd'),
+        // Create specific users
+        $adminUser = User::create([
+            'name' => 'Admin User',
+            'email' => 'admin@gmail.com',
+            'password' => bcrypt('password'), // You might want to use a more secure password in production
+            'role' => 'admin',
         ]);
+
+        $regularUser = User::create([
+            'name' => 'Regular User',
+            'email' => 'user@gmail.com',
+            'password' => bcrypt('password'), // You might want to use a more secure password in production
+            'role' => 'user',
+        ]);
+
+        // Load quiz data from QuizSeedData.php
+        $quizData = require __DIR__.'/QuizSeedData.php';
+
+        $quizCounter = 0;
+        foreach ($quizData as $quiz) {
+            $ownerId = ($quizCounter < 2) ? $regularUser->id : $adminUser->id;
+
+            $quizModel = Quiz::create([
+                'title' => $quiz['title'],
+                'description' => $quiz['description'],
+                'created_by' => $ownerId,
+                'is_public' => true,
+            ]);
+
+            foreach ($quiz['questions'] as $q) {
+                $questionModel = Question::create([
+                    'quiz_id' => $quizModel->id,
+                    'created_by' => $ownerId, // Questions also owned by the same user as the quiz
+                    'question' => $q['question'],
+                    'type' => 'multiple_choice',
+                ]);
+
+                foreach ($q['options'] as $opt) {
+                    QuestionOption::create([
+                        'question_id' => $questionModel->id,
+                        'option_text' => $opt['option_text'],
+                        'is_correct' => $opt['is_correct'],
+                    ]);
+                }
+            }
+            $quizCounter++;
+        }
     }
 }
