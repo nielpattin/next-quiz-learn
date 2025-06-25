@@ -1,7 +1,46 @@
 @import 'tailwindcss';
 
-@theme {
+.circular-spinner {
+    display: inline-block;
+    width: 1.5rem;
+    height: 1.5rem;
+    vertical-align: middle;
+    position: relative;
+}
+.circular-spinner svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+    transform-origin: 50% 50%;
+    animation: spinner-rotate 2s linear infinite;
+}
+.circular-spinner .spinner-path {
+    stroke: var(--text-foreground);
+    stroke-linecap: round;
+    stroke-width: 4;
+    fill: none;
+}
+@keyframes spinner-rotate {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+:root {
     --color-primary: #3D405B;
+
+    --option-color-1: oklch(65.892% 0.10729 222.393); /* Blue-Cyan */
+    --option-color-1-hover: oklch(70% 0.15 220);
+
+    --option-color-2: oklch(71.325% 0.18414 140.227); /* Green-Yellow */
+    --option-color-2-hover: oklch(77.59% 0.22821 140.517);
+
+    --option-color-3: oklch(68.721% 0.12286 66.698);  /* Orange-Red */
+    --option-color-3-hover: oklch(74.094% 0.16745 58.231);
+
+    --option-color-4: oklch(60% 0.15 300); /* Purple-Magenta */
+    --option-color-4-hover: oklch(70% 0.15 300);
+
     --color-secondary: oklch(75% 0.07 250);
     --color-tertiary: #81B29A;
     --color-quaternary: #fbf3e9;
@@ -21,20 +60,39 @@
     --button-primary-background: var(--color-primary);
 
     --border-correct: #31dda1;
-    --border-wrong: #de0f0f; /* deep, highly contrasting red for light theme */
-    --bg-incorrect-selected: oklch(93% 0.13 29); /* light, desaturated red for light theme */
+    --border-wrong: #de0f0f;
+    --bg-incorrect-selected: oklch(93% 0.13 29);
+
+    --color-correct-border: oklch(50% 0.15 140);
+    --color-correct-bg: oklch(90% 0.05 140);
+    --color-incorrect-border: oklch(50% 0.15 20);
+    --color-incorrect-bg: #eb8383;
+
+    --color-success-bg: #49d44e; /* vibrant green background */
+    --color-success-foreground: #256029; /* strong green foreground */
 }
 
 .border-correct {
     border-color: var(--border-correct);
-    background-color: #bdf1be;
+    background-color: #76e478;
 }
 .border-incorrect {
     border-color: var(--border-wrong);
-    background-color: #f1a3a3;
+    background-color: #eb8383;
 }
 .border-default {
     border-color: var(--border-default);
+}
+
+@theme {
+  --color-option-1-bg: var(--option-color-1);
+  --color-option-1-hover: var(--option-color-1-hover);
+  --color-option-2-bg: var(--option-color-2);
+  --color-option-2-hover: var(--option-color-2-hover);
+  --color-option-3-bg: var(--option-color-3);
+  --color-option-3-hover: var(--option-color-3-hover);
+  --color-option-4-bg: var(--option-color-4);
+  --color-option-4-hover: var(--option-color-4-hover);
 }
 .quiz-answer-default {
     border-color: var(--border-default);
@@ -42,6 +100,18 @@
 
 
 .dark {
+    --option-color-1: oklch(30% 0.15 220);
+    --option-color-1-hover: oklch(40% 0.15 220);
+
+    --option-color-2: oklch(30% 0.15 140);
+    --option-color-2-hover: oklch(40% 0.15 140);
+
+    --option-color-3: oklch(30% 0.15 60);
+    --option-color-3-hover: oklch(40% 0.15 60);
+
+    --option-color-4: oklch(30% 0.15 300);
+    --option-color-4-hover: oklch(40% 0.15 300);
+
     --color-secondary: oklch(40% 0.07 250);
     --background: #3D405B;
     --text-foreground: #F4F1DE;

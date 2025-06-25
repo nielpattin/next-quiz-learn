@@ -23,6 +23,9 @@ class PlayQuiz extends Component
     public ?bool $isCorrect = null;
     public bool $answerLocked = false;
 
+    public bool $showProgressBar = false;
+    public int $progressBarKey = 0;
+
     public ?QuizAttempt $quizAttempt = null;
     public ?Carbon $questionStartTime = null;
 
@@ -50,6 +53,8 @@ class PlayQuiz extends Component
             $this->quizAttempt = null;
         }
         $this->questionStartTime = now();
+        // Do not show progress bar or increment key on mount
+        $this->showProgressBar = false;
     }
 
     public function getCurrentQuestionProperty()
@@ -62,6 +67,7 @@ class PlayQuiz extends Component
 
     public function nextQuestion()
     {
+        $this->showProgressBar = false;
         $this->selectedOptionId = null;
         $this->isCorrect = null;
         $this->answerLocked = false;
@@ -72,7 +78,9 @@ class PlayQuiz extends Component
             $this->quizAttempt->update([
                 'completed_at' => now(),
                 'score' => $this->getScoreProperty(),
+                'status' => 'completed',
             ]);
+            return redirect()->route('quiz-attempts.report', ['quiz_attempt' => $this->quizAttempt->id]);
         } else {
             $this->currentQuestionIndex++;
         }
@@ -104,8 +112,24 @@ class PlayQuiz extends Component
                 'time_spent' => $timeSpent,
             ]);
         }
+    }
 
-        $this->dispatch('$refresh');
+    public function proceedAfterDelay()
+    {
+        if (
+            $this->currentQuestionIndex === $this->questions->count() - 1 &&
+            !$this->quizFinished
+        ) {
+            $this->quizFinished = true;
+            $this->quizAttempt->update([
+                'completed_at' => now(),
+                'score' => $this->getScoreProperty(),
+                'status' => 'completed',
+            ]);
+            return redirect()->route('quiz-attempts.report', ['quiz_attempt' => $this->quizAttempt->id]);
+        }
+
+        $this->nextQuestion();
     }
 
     public function getScoreProperty()
@@ -140,7 +164,6 @@ class PlayQuiz extends Component
             'isCorrect' => $this->isCorrect,
             'answerLocked' => $this->answerLocked,
             'isQuestionAnswered' => $this->isQuestionAnswered,
-            'score' => method_exists($this, 'getScoreProperty') ? $this->getScoreProperty() : null,
         ])->layout('components.layouts.app');
     }
 }

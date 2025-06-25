@@ -34,12 +34,18 @@ class QuestionAttempt extends Model
         return $this->belongsTo(Question::class);
     }
 
+    public function selectedOption(): BelongsTo
+    {
+        return $this->belongsTo(QuestionOption::class, 'question_option_id');
+    }
+
+    // Legacy, keep for compatibility if needed elsewhere
     public function questionOption(): BelongsTo
     {
-        if (Schema::hasTable('question_options|QuestionOption')) {
-            return $this->belongsTo(question_options|QuestionOption::class);
+        if (Schema::hasTable('question_options')) {
+            return $this->belongsTo(QuestionOption::class);
         }
-        return $this->belongsTo(question_options|QuestionOption::class)->whereRaw('1=0');
+        return $this->belongsTo(QuestionOption::class)->whereRaw('1=0');
     }
 
     public function getFormattedTimeSpentAttribute(): string
