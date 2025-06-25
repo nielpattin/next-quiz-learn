@@ -2,13 +2,12 @@
 
 use App\Livewire\Actions\Logout;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Session;
 use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
 
 new #[Layout('components.layouts.auth')] class extends Component {
     /**
-     * Send an email verification notification to the user.
+     * Send a new email verification notification.
      */
     public function sendVerification(): void
     {
@@ -20,7 +19,7 @@ new #[Layout('components.layouts.auth')] class extends Component {
 
         Auth::user()->sendEmailVerificationNotification();
 
-        Session::flash('status', 'verification-link-sent');
+        session()->flash('status', 'verification-link-sent');
     }
 
     /**
@@ -34,23 +33,26 @@ new #[Layout('components.layouts.auth')] class extends Component {
     }
 }; ?>
 
-<div class="mt-4 flex flex-col gap-6">
-    <p class="text-center text-sm text-zinc-600 dark:text-zinc-300">
+<div class="flex flex-col gap-6">
+    <x-auth-header :title="__('Verify your email address')" :description="__('Thanks for signing up! Before getting started, could you verify your email address by clicking on the link we just emailed to you? If you didn\'t receive the email, we will gladly send you another.')" />
+
+    <x-auth-session-status class="text-center" :status="session('status')" />
+
+    <p class="text-center text-sm text-[var(--foreground)] dark:text-[var(--foreground)]">
         {{ __('Please verify your email address by clicking on the link we just emailed to you.') }}
+        @if (session('status') == 'verification-link-sent')
+            <span class="block font-medium text-[var(--color-primary)] dark:text-[var(--color-primary)]">
+                {{ __('A new verification link has been sent to the email address you provided during registration.') }}
+            </span>
+        @endif
     </p>
 
-    @if (session('status') == 'verification-link-sent')
-        <p class="text-center font-medium text-green-600 dark:text-green-400">
-            {{ __('A new verification link has been sent to the email address you provided during registration.') }}
-        </p>
-    @endif
-
     <div class="flex flex-col items-center justify-between space-y-3">
-        <button wire:click="sendVerification" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:ring-offset-zinc-800">
+        <button wire:click="sendVerification" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-[var(--color-accent-foreground)] bg-[var(--color-accent)] hover:bg-[var(--color-tertiary)] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-accent)] dark:bg-[var(--color-accent)] dark:hover:bg-[var(--color-tertiary)] dark:focus:ring-offset-[var(--color-zinc-800)]">
             {{ __('Resend verification email') }}
         </button>
 
-        <button wire:click="logout" class="text-sm text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200 cursor-pointer">
+        <button wire:click="logout" class="text-sm text-[var(--foreground)] dark:text-[var(--foreground)] hover:text-[var(--foreground)] dark:hover:text-[var(--foreground)] cursor-pointer">
             {{ __('Log out') }}
         </button>
     </div>

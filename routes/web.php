@@ -1,15 +1,20 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Models\Quiz;
 use Livewire\Volt\Volt;
 
 Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
-Route::view('dashboard', 'dashboard')
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
+Route::get('/dashboard', function () {
+    $totalQuizzes = Quiz::count();
+    $publicQuizzes = Quiz::where('is_public', true)->count();
+    $recentQuizzes = Quiz::latest()->take(5)->get();
+
+    return view('dashboard', compact('totalQuizzes', 'publicQuizzes', 'recentQuizzes'));
+})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware(['auth'])->group(function () {
     // Quiz management routes

@@ -75,28 +75,28 @@ new class extends Component {
     <x-settings.layout :heading="__('Profile')" :subheading="__('Update your name and email address')">
         <form wire:submit="updateProfileInformation" class="my-6 w-full space-y-6">
             <div>
-                <label for="name" class="block text-sm font-medium text-indigo-700">{{ __('Name') }}</label>
-                <input wire:model="name" id="name" name="name" type="text" required autofocus autocomplete="name" class="mt-1 block w-full px-3 py-2 border border-indigo-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500 bg-white text-indigo-800">
+                <label for="name" class="block text-sm font-medium text-[var(--foreground)]">{{ __('Name') }}</label>
+                <input wire:model="name" id="name" name="name" type="text" required autofocus autocomplete="name" class="mt-1 block w-full px-3 py-2 border border-[var(--border-color)] rounded-md shadow-sm focus:outline-none focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)] bg-[var(--card-bg)] text-[var(--foreground)]">
                 @error('name') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
             </div>
 
             <div>
-                <label for="email" class="block text-sm font-medium text-indigo-700">{{ __('Email') }}</label>
-                <input wire:model="email" id="email" name="email" type="email" required autocomplete="email" class="mt-1 block w-full px-3 py-2 border border-indigo-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500 bg-white text-indigo-800">
+                <label for="email" class="block text-sm font-medium text-[var(--foreground)]">{{ __('Email') }}</label>
+                <input wire:model="email" id="email" name="email" type="email" required autocomplete="email" class="mt-1 block w-full px-3 py-2 border border-[var(--border-color)] rounded-md shadow-sm focus:outline-none focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)] bg-[var(--card-bg)] text-[var(--foreground)]">
                 @error('email') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
 
                 @if (auth()->user() instanceof \Illuminate\Contracts\Auth\MustVerifyEmail &&! auth()->user()->hasVerifiedEmail())
                     <div>
-                        <p class="mt-4 text-sm text-indigo-600">
+                        <p class="mt-4 text-sm text-[var(--foreground)]">
                             {{ __('Your email address is unverified.') }}
 
-                            <button type="button" class="text-sm text-teal-600 underline cursor-pointer hover:text-teal-800" wire:click.prevent="resendVerificationNotification">
+                            <button type="button" class="text-sm text-[var(--color-primary)] underline cursor-pointer hover:text-[var(--color-secondary)]" wire:click.prevent="resendVerificationNotification">
                                 {{ __('Click here to re-send the verification email.') }}
                             </button>
                         </p>
 
                         @if (session('status') === 'verification-link-sent')
-                            <p class="mt-2 text-sm font-medium text-green-600">
+                            <p class="mt-2 text-sm font-medium text-[var(--color-primary)]">
                                 {{ __('A new verification link has been sent to your email address.') }}
                             </p>
                         @endif
@@ -106,7 +106,7 @@ new class extends Component {
 
             <div class="flex items-center gap-4">
                 <div class="flex items-center justify-end">
-                    <button type="submit" class="w-full px-4 py-2 bg-teal-500 hover:bg-teal-600 text-white font-medium rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500">{{ __('Save') }}</button>
+                    <button type="submit" class="w-full px-4 py-2 bg-[var(--color-primary)] hover:bg-[var(--color-tertiary)] text-[var(--color-accent-foreground)] font-medium rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-primary)]">{{ __('Save') }}</button>
                 </div>
 
                 <x-action-message class="me-3" on="profile-updated">

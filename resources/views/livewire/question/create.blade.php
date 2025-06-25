@@ -99,29 +99,29 @@ new class extends Component {
 
 <div class="w-full max-w-3xl mx-auto">
     <div class="mb-6">
-        <nav class="flex items-center space-x-2 text-sm text-indigo-600 mb-2">
-            <a wire:navigate href="{{ route('quizzes.index') }}" class="hover:text-indigo-800">Quizzes</a>
+        <nav class="flex items-center space-x-2 text-sm text-[var(--foreground)] mb-2">
+            <a wire:navigate href="{{ route('quizzes.index') }}" class="hover:text-[var(--foreground)]">Quizzes</a>
             <span>/</span>
-            <span class="text-indigo-800">{{ $quiz->title }}</span>
+            <span class="text-[var(--foreground)]">{{ $quiz->title }}</span>
             <span>/</span>
-            <span class="text-indigo-800">New Question</span>
+            <span class="text-[var(--foreground)]">New Question</span>
         </nav>
-        <h1 class="text-2xl font-bold text-indigo-800">Add Question</h1>
-        <p class="mt-1 text-sm text-indigo-600">Create a new question for "{{ $quiz->title }}"</p>
+        <h1 class="text-2xl font-bold text-[var(--foreground)]">Add Question</h1>
+        <p class="mt-1 text-sm text-[var(--foreground)]">Create a new question for "{{ $quiz->title }}"</p>
     </div>
 
     <form wire:submit="createQuestion" class="space-y-6">
-        <div class="bg-teal-50 shadow rounded-lg p-6">
+        <div class="bg-[var(--background)] shadow rounded-lg p-6">
             <div class="space-y-6">
                 <div>
-                    <label for="question" class="block text-sm font-medium text-indigo-700">Question Text *</label>
-                    <textarea wire:model="question" id="question" rows="3" placeholder="Enter your question here..." class="mt-1 block w-full px-3 py-2 border border-indigo-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500 bg-white text-indigo-800"></textarea>
+                    <label for="question" class="block text-sm font-medium text-[var(--foreground)]">Question Text *</label>
+                    <textarea wire:model="question" id="question" rows="3" placeholder="Enter your question here..." class="mt-1 block w-full px-3 py-2 border border-[var(--border-color)] rounded-md shadow-sm focus:outline-none focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)] bg-[var(--card-bg)] text-[var(--foreground)]"></textarea>
                     @error('question') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                 </div>
 
                 <div>
-                    <label for="type" class="block text-sm font-medium text-indigo-700">Question Type *</label>
-                    <select wire:model.live="type" id="type" class="mt-1 block w-40 px-3 py-2 border border-indigo-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500 bg-white text-indigo-800">
+                    <label for="type" class="block text-sm font-medium text-[var(--foreground)]">Question Type *</label>
+                    <select wire:model.live="type" id="type" class="mt-1 block w-40 px-3 py-2 border border-[var(--border-color)] rounded-md shadow-sm focus:outline-none focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)] bg-[var(--card-bg)] text-[var(--foreground)]">
                         <option value="multiple_choice">Multiple Choice</option>
                         <option value="true_false">True/False</option>
                     </select>
@@ -130,9 +130,9 @@ new class extends Component {
 
                 <div>
                     <div class="flex items-center justify-between mb-3">
-                        <label class="block text-sm font-medium text-indigo-700">Answer Options *</label>
+                        <label class="block text-sm font-medium text-[var(--foreground)]">Answer Options *</label>
                         @if ($type === 'multiple_choice' && count($options) < 6)
-                            <button type="button" wire:click="addOption" class="text-sm text-teal-600 hover:text-teal-800 font-medium">
+                            <button type="button" wire:click="addOption" class="text-sm text-[var(--color-primary)] hover:text-[var(--color-secondary)] font-medium">
                                 + Add Option
                             </button>
                         @endif
@@ -143,12 +143,12 @@ new class extends Component {
                             <input type="radio" 
                                    name="correct_answer" 
                                    wire:click="$set('correct_answer', {{ $optionIndex }})" 
-                                   @checked($correct_answer == $optionIndex) 
-                                   class="h-4 w-4 text-teal-600 focus:ring-teal-500 border-indigo-300">
-                            <input wire:model="options.{{ $optionIndex }}" 
-                                   type="text" 
-                                   placeholder="Option {{ $optionIndex + 1 }}" 
-                                   class="flex-1 px-3 py-2 border border-indigo-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500 bg-white text-indigo-800">
+                                   @checked($correct_answer == $optionIndex)
+                                   class="h-4 w-4 text-[var(--color-primary)] focus:ring-[var(--color-primary)] border-[var(--border-color)]">
+                            <input wire:model="options.{{ $optionIndex }}"
+                                   type="text"
+                                   placeholder="Option {{ $optionIndex + 1 }}"
+                                   class="flex-1 px-3 py-2 border border-[var(--border-color)] rounded-md shadow-sm focus:outline-none focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)] bg-[var(--card-bg)] text-[var(--foreground)]">
                             @if ($type === 'multiple_choice' && count($options) > 2)
                                 <button type="button" wire:click="removeOption({{ $optionIndex }})" class="text-red-600 hover:text-red-800 p-1">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -160,22 +160,22 @@ new class extends Component {
                         @error("options.{$optionIndex}") <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                     @endforeach
                     @error('correct_answer') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-                    <p class="text-xs text-indigo-600 mt-2">Select the radio button next to the correct answer</p>
+                    <p class="text-xs text-[var(--foreground)] mt-2">Select the radio button next to the correct answer</p>
                 </div>
 
                 <div>
-                    <label for="explanation" class="block text-sm font-medium text-indigo-700">Explanation (optional)</label>
-                    <textarea wire:model="explanation" id="explanation" rows="3" maxlength="200" placeholder="Explain why this is the correct answer..." class="mt-1 block w-full px-3 py-2 border border-indigo-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500 bg-white text-indigo-800"></textarea>
+                    <label for="explanation" class="block text-sm font-medium text-[var(--foreground)]">Explanation (optional)</label>
+                    <textarea wire:model="explanation" id="explanation" rows="3" maxlength="200" placeholder="Explain why this is the correct answer..." class="mt-1 block w-full px-3 py-2 border border-[var(--border-color)] rounded-md shadow-sm focus:outline-none focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)] bg-[var(--card-bg)] text-[var(--foreground)]"></textarea>
                     @error('explanation') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                 </div>
             </div>
         </div>
 
         <div class="flex items-center justify-between">
-            <a wire:navigate href="{{ route('quizzes.edit', $quiz) }}" class="px-4 py-2 border border-indigo-300 rounded-md shadow-sm text-sm font-medium text-indigo-700 bg-white hover:bg-indigo-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500">
+            <a wire:navigate href="{{ route('quizzes.edit', $quiz) }}" class="px-4 py-2 border border-[var(--border-color)] rounded-md shadow-sm text-sm font-medium text-[var(--foreground)] bg-[var(--card-bg)] hover:bg-[var(--color-tertiary)] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-primary)]">
                 Cancel
             </a>
-            <button type="submit" class="px-6 py-2 bg-teal-500 hover:bg-teal-600 text-white font-medium rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500">
+            <button type="submit" class="px-6 py-2 bg-[var(--color-primary)] hover:bg-[var(--color-tertiary)] text-[var(--color-accent-foreground)] font-medium rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-primary)]">
                 <span wire:loading.remove>Create Question</span>
                 <span wire:loading>Creating...</span>
             </button>

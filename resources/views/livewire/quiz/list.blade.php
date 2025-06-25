@@ -70,26 +70,26 @@ new class extends Component {
 
 <div class="w-full">
     <div class="mb-6">
-        <h1 class="text-2xl font-bold text-indigo-800">My Quizzes</h1>
-        <p class="mt-1 text-sm text-indigo-600">Manage your quiz collection</p>
+        <h1 class="text-2xl font-bold text-[var(--foreground)]">My Quizzes</h1>
+        <p class="mt-1 text-sm text-[var(--foreground)]">Manage your quiz collection</p>
     </div>
 
 
-    <div class="bg-teal-50 shadow rounded-lg">
-        <div class="p-6 border-b border-teal-200">
+    <div class="bg-[var(--background)] shadow rounded-lg">
+        <div class="p-6 border-b border-[var(--border-color)]">
             <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                 <div class="flex-1 max-w-lg">
                     <input 
                         wire:model.live="search" 
                         type="text" 
                         placeholder="Search quizzes..." 
-                        class="w-full px-3 py-2 border border-teal-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500 bg-white text-indigo-800"
+                        class="w-full px-3 py-2 border border-[var(--border-color)] rounded-md shadow-sm focus:outline-none focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)] bg-[var(--card-bg)] text-[var(--foreground)]"
                     >
                 </div>
                 <a 
                     wire:navigate 
-                    href="{{ route('quizzes.create') }}" 
-                    class="inline-flex items-center px-4 py-2 bg-teal-500 hover:bg-teal-600 text-white font-medium rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500"
+                    href="{{ route('quizzes.create') }}"
+                    class="inline-flex items-center px-4 py-2 bg-[var(--color-primary)] hover:bg-[var(--color-tertiary)] text-[var(--color-accent-foreground)] font-medium rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-primary)]"
                 >
                     <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
@@ -101,44 +101,42 @@ new class extends Component {
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
             @forelse ($this->getQuizzes() as $quiz)
-                <div class="bg-white rounded-lg shadow-md border border-teal-100 hover:shadow-lg transition-shadow duration-200">
-                    <div class="p-4 border-b border-teal-200">
-                        <h3 class="text-lg font-semibold text-indigo-800">{{ $quiz->title }}</h3>
+                <div class="bg-[var(--card-bg)] rounded-lg shadow-md border border-[var(--border-color)] hover:shadow-lg transition-shadow duration-200">
+                    <div class="p-4 border-b border-[var(--border-color)]">
+                        <h3 class="text-lg font-semibold text-[var(--foreground)]">{{ $quiz->title }}</h3>
                         @if ($quiz->description)
-                            <p class="mt-1 text-sm text-indigo-600 line-clamp-2 overflow-hidden">{{ $quiz->description }}</p>
+                            <p class="mt-1 text-sm text-[var(--foreground)] line-clamp-2 overflow-hidden">{{ $quiz->description }}</p>
                         @endif
                     </div>
                     
                     <div class="p-4">
-                        <div class="flex items-center justify-between text-sm text-indigo-800 mb-2">
+                        <div class="flex items-center justify-between text-sm text-[var(--foreground)] mb-2">
                             <span>Questions: {{ $quiz->questions_count }}</span>
                             <span>{{ $quiz->created_at->format('M d, Y') }}</span>
                         </div>
                         
                         <div class="flex items-center justify-between mt-4">
-                            <div class="flex items-center justify-between">
-                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $quiz->is_public ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-800' }}">
-                                    {{ $quiz->is_public ? 'Public' : 'Private' }}
-                                </span>
-                                
-                                <livewire:quiz.quiz-actions :quiz="$quiz" wire:key="quiz-actions-{{ $quiz->id }}" class="cursor-pointer" />
-                            </div>
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $quiz->is_public ? 'bg-[var(--color-tertiary)] text-[var(--foreground)]' : 'bg-[var(--background)] text-[var(--foreground)]' }}">
+                                {{ $quiz->is_public ? 'Public' : 'Private' }}
+                            </span>
+                            
+                            <livewire:quiz.quiz-actions :quiz="$quiz" wire:key="quiz-actions-{{ $quiz->id }}" class="cursor-pointer" />
                         </div>
                     </div>
                 </div>
             @empty
                 <div class="col-span-full text-center py-12">
-                    <div class="text-indigo-600">
-                        <svg class="mx-auto h-12 w-12 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <div class="text-[var(--foreground)]">
+                        <svg class="mx-auto h-12 w-12 text-[var(--color-secondary)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
                         </svg>
-                        <h3 class="mt-2 text-sm font-medium text-indigo-800">No quizzes</h3>
-                        <p class="mt-1 text-sm text-indigo-600">Get started by creating a new quiz.</p>
+                        <h3 class="mt-2 text-sm font-medium text-[var(--foreground)]">No quizzes</h3>
+                        <p class="mt-1 text-sm text-[var(--foreground)]">Get started by creating a new quiz.</p>
                         <div class="mt-6">
                             <a
                                 wire:navigate
                                 href="{{ route('quizzes.create') }}"
-                                class="inline-flex items-center px-4 py-2 bg-teal-500 hover:bg-teal-600 text-white font-medium rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500"
+                                class="inline-flex items-center px-4 py-2 bg-teal-500 hover:bg-[var(--color-tertiary)] text-white font-medium rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500"
                             >
                                 <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
@@ -152,7 +150,7 @@ new class extends Component {
         </div>
 
         @if ($this->getQuizzes()->hasPages())
-            <div class="px-6 py-3 border-t border-teal-200">
+            <div class="px-6 py-3 border-t border-[var(--border-color)]">
                 {{ $this->getQuizzes()->links() }}
             </div>
         @endif

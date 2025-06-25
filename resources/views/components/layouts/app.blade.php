@@ -20,13 +20,13 @@
         class="fixed top-0 right-0 p-4 z-50 w-full max-w-xs">
         <template x-for="toast in toasts" :key="toast.id">
             <div :class="{
-                'bg-green-500': toast.type === 'success',
+                'bg-[var(--color-primary)]': toast.type === 'success',
                 'bg-red-500': toast.type === 'error',
-                'bg-blue-500': toast.type === 'info'
+                'bg-[var(--color-accent)]': toast.type === 'info'
             }"
-                class="text-white px-4 py-2 rounded-md shadow-lg mb-3 flex items-center justify-between">
+                class="text-[var(--color-accent-foreground)] px-4 py-2 rounded-md shadow-lg mb-3 flex items-center justify-between">
                 <span x-text="toast.message"></span>
-                <button @click="toasts = toasts.filter(t => t.id !== toast.id)" class="ml-4 text-white">
+                <button @click="toasts = toasts.filter(t => t.id !== toast.id)" class="ml-4 text-[var(--color-accent-foreground)]">
                     &times;
                 </button>
             </div>
