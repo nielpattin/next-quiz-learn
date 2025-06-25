@@ -6,7 +6,7 @@
                 @if (!empty($currentQuestion->title))
                     <h3 class="text-xl font-bold mb-2 text-foreground">{{ $currentQuestion->title }}</h3>
                 @endif
-                <p class="text-lg font-semibold mb-4 text-card-text">{{ $currentQuestion->question_text }}</p>
+                <p class="text-lg font-semibold mb-4 text-card-text">{{ $currentQuestion->question }}</p>
                 <div class="space-y-2">
                     @foreach (($currentQuestion->questionOptions ?? []) as $option)
                         @php
