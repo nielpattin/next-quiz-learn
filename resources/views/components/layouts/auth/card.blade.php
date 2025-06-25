@@ -14,7 +14,7 @@
                 </a>
 
                 <div class="flex flex-col gap-6">
-                    <div class="rounded-xl border bg-[var(--card-bg)] dark:bg-[var(--card-bg)] dark:border-[var(--border-color)] text-[var(--card-text)] shadow-xs">
+                    <div class="rounded-xl border bg-[var(--card-background)] dark:bg-[var(--card-background)] dark:border-[var(--border-color)] text-[var(--card-text)] shadow-xs">
                         <div class="px-10 py-8">{{ $slot }}</div>
                     </div>
                 </div>

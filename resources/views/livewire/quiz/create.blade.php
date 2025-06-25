@@ -65,10 +65,10 @@ new class extends Component {
         <p class="text-[var(--foreground)] mb-6">We'll start with a basic quiz template and then help you add your first question.</p>
         
         <div class="flex items-center justify-center space-x-4">
-            <a wire:navigate href="{{ route('quizzes.index') }}" class="px-4 py-2 border border-[var(--border-color)] rounded-md shadow-sm text-sm font-medium text-[var(--foreground)] bg-[var(--card-bg)] hover:bg-[var(--color-tertiary)] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-primary)]">
+            <a wire:navigate href="{{ route('quizzes.index') }}" class="px-4 py-2 border border-[var(--border-color)] rounded-md shadow-sm text-sm font-medium text-[var(--foreground)] bg-[var(--card-background)] hover:bg-[var(--color-tertiary)] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-primary)]">
                 Cancel
             </a>
-            <button wire:click="createQuiz" class="cursor-pointer px-6 py-2 bg-[var(--color-primary)] hover:bg-[var(--color-tertiary)] text-[var(--color-accent-foreground)] font-medium rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-primary)]">
+            <button wire:click="createQuiz" class="cursor-pointer px-6 py-2 bg-[var(--button-primary-background)] hover:bg-[var(--color-tertiary)] text-[var(--button-primary-foreground)] font-medium rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-primary)]">
                 <span wire:loading.remove>Create Quiz & Add First Question</span>
                 <span wire:loading>Creating...</span>
             </button>

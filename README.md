@@ -258,15 +258,6 @@ npm run dev
 -   `POST /register` - User registration
 -   `POST /logout` - User logout
 
-## Testing
-
-```bash
-# Run all tests
-php artisan test
-
-# Run specific test suite
-php artisan test --testsuite=Feature
-```
 
 ## Contributing
 
@@ -285,3 +276,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 
 composer update
+php artisan view:clear
+php artisan cache:clear
+php artisan config:clear
+php artisan route:clear
+composer dump-autoload

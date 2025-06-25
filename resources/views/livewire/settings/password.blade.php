@@ -44,25 +44,25 @@ new class extends Component {
         <form wire:submit="updatePassword" class="mt-6 space-y-6">
             <div>
                 <label for="current_password" class="block text-sm font-medium text-[var(--foreground)]">{{ __('Current password') }}</label>
-                <input wire:model="current_password" id="current_password" name="current_password" type="password" required autocomplete="current-password" class="mt-1 block w-full px-3 py-2 border border-[var(--border-color)] rounded-md shadow-sm focus:outline-none focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)] bg-[var(--card-bg)] text-[var(--foreground)]">
+                <input wire:model="current_password" id="current_password" name="current_password" type="password" required autocomplete="current-password" class="mt-1 block w-full px-3 py-2 border border-[var(--border-color)] rounded-md shadow-sm focus:outline-none focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)] bg-[var(--card-background)] text-[var(--foreground)]">
                 @error('current_password') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
             </div>
 
             <div>
                 <label for="password" class="block text-sm font-medium text-[var(--foreground)]">{{ __('New password') }}</label>
-                <input wire:model="password" id="password" name="password" type="password" required autocomplete="new-password" class="mt-1 block w-full px-3 py-2 border border-[var(--border-color)] rounded-md shadow-sm focus:outline-none focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)] bg-[var(--card-bg)] text-[var(--foreground)]">
+                <input wire:model="password" id="password" name="password" type="password" required autocomplete="new-password" class="mt-1 block w-full px-3 py-2 border border-[var(--border-color)] rounded-md shadow-sm focus:outline-none focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)] bg-[var(--card-background)] text-[var(--foreground)]">
                 @error('password') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
             </div>
 
             <div>
                 <label for="password_confirmation" class="block text-sm font-medium text-[var(--foreground)]">{{ __('Confirm Password') }}</label>
-                <input wire:model="password_confirmation" id="password_confirmation" name="password_confirmation" type="password" required autocomplete="new-password" class="mt-1 block w-full px-3 py-2 border border-[var(--border-color)] rounded-md shadow-sm focus:outline-none focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)] bg-[var(--card-bg)] text-[var(--foreground)]">
+                <input wire:model="password_confirmation" id="password_confirmation" name="password_confirmation" type="password" required autocomplete="new-password" class="mt-1 block w-full px-3 py-2 border border-[var(--border-color)] rounded-md shadow-sm focus:outline-none focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)] bg-[var(--card-background)] text-[var(--foreground)]">
                 @error('password_confirmation') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
             </div>
 
             <div class="flex items-center gap-4">
                 <div class="flex items-center justify-end">
-                    <button type="submit" class="w-full px-4 py-2 bg-[var(--color-primary)] hover:bg-[var(--color-tertiary)] text-[var(--color-accent-foreground)] font-medium rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-primary)]">{{ __('Save') }}</button>
+                    <button type="submit" class="w-full px-4 py-2 bg-[var(--color-primary)] hover:bg-[var(--color-tertiary)] text-[var(--button-primary-foreground)] font-medium rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-primary)]">{{ __('Save') }}</button>
                 </div>
 
                 <x-action-message class="me-3" on="password-updated">

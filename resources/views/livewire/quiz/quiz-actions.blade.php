@@ -11,7 +11,7 @@
     <div
         x-show="open"
         @click.away="open = false"
-        class="absolute right-0 mt-2 w-48 bg-[var(--card-bg)] rounded-md shadow-lg z-50 border border-[var(--border-color)]"
+        class="absolute right-0 mt-2 w-48 bg-[var(--card-background)] rounded-md shadow-lg z-50 border border-[var(--border-color)]"
     >
         <div class="py-1">
             <button

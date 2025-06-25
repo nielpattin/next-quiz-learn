@@ -21,11 +21,12 @@ Route::middleware(['auth'])->group(function () {
     Volt::route('quizzes', 'quiz.list')->name('quizzes.index');
     Volt::route('quizzes/create', 'quiz.create')->name('quizzes.create');
     Volt::route('quizzes/{quiz}/edit', 'quiz.edit')->name('quizzes.edit');
-// Quiz browsing and playing
-Volt::route('quizzes/browse', 'quiz.browse-quizzes')->name('quizzes.browse');
-Volt::route('quizzes/{quiz}', 'quiz.show-quiz')->name('quiz.show');
+    // Quiz browsing and playing
+    Volt::route('quizzes/browse', 'quiz.browse-quizzes')->name('quizzes.browse');
+    Volt::route('quizzes/{quiz}', 'quiz.show-quiz')->name('quiz.show');
 
-// Question management routes
+    Route::get('/quizzes/{quiz}/play', \App\Livewire\Quiz\PlayQuiz::class)->name('quizzes.play');
+    // Question management routes
     Volt::route('quizzes/{quiz}/questions/create', 'question.create')->name('questions.create');
     Volt::route('quizzes/{quiz}/questions/{question}/edit', 'question.edit')->name('questions.edit');
 

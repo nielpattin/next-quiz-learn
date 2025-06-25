@@ -3,10 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany; // Add this line
-
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Quiz extends Model
 {
+    use HasFactory;
+
 
     /**
      * The attributes that are mass assignable.
@@ -45,50 +48,36 @@ class Quiz extends Model
 
 
     /**
-     * Get the questions associated with this quiz through the pivot table.
+     * Get the questions directly associated with this quiz.
      */
     public function questions()
     {
-        return $this->belongsToMany(Question::class, 'quiz_question')
-                    ->withPivot('order')
-                    ->withTimestamps()
-                    ->orderBy('quiz_question.order');
+        return $this->hasMany(Question::class, 'quiz_id');
     }
 
     /**
-     * Get questions in the order specified by the pivot table.
+     * Get the quiz attempts for the quiz.
      */
+    public function quizAttempts(): HasMany
+    {
+        if (Schema::hasTable('quiz_attempts')) {
+            return $this->hasMany(QuizAttempt::class);
+        }
+        return $this->hasMany(QuizAttempt::class)->whereRaw('1=0');
+    }
     public function getOrderedQuestions()
     {
-        return $this->questions;
+        return $this->questions()->orderBy('created_at')->get();
     }
 
-    /**
-     * Add a question to this quiz with proper ordering.
-     */
-    public function addQuestion($questionId)
-    {
-        // Get the next order number
-        $maxOrder = $this->questions()->max('quiz_question.order') ?? 0;
-        $nextOrder = $maxOrder + 1;
-        
-        // Attach the question with the next order
-        $this->questions()->attach($questionId, ['order' => $nextOrder]);
-    }
-
-    /**
-     * Remove a question from this quiz.
-     */
     public function removeQuestion($questionId)
     {
-        $this->questions()->detach($questionId);
-    }
-
-    /**
-     * Get the quiz sessions for the quiz.
-     */
-    public function quizSessions(): HasMany
-    {
-        return $this->hasMany(QuizSession::class);
+        $question = $this->questions()->find($questionId);
+        if ($question) {
+            // No action needed, as the question is deleted immediately after.
+            // This method exists to satisfy the Livewire component call.
+            return true;
+        }
+        return false;
     }
 }

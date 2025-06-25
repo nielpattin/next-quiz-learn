@@ -2,43 +2,56 @@
 
 @theme {
     --color-primary: #3D405B;
-    --color-secondary: #E07A5F;
+    --color-secondary: oklch(75% 0.07 250);
     --color-tertiary: #81B29A;
-    --color-quaternary: #F4F1DE;
+    --color-quaternary: #fbf3e9;
 
-    /* Light theme colors */
     --background: var(--color-quaternary);
-    --foreground: var(--color-primary);
-    --card-bg: var(--color-quaternary);
-    --card-text: var(--color-primary);
-    --border-color: var(--color-tertiary);
+    --text-foreground: var(--color-primary);
+    --card-background: var(--color-quaternary);
+    --card-foreground: var(--color-primary);
+    --border-default: #6B7280;
 
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-    --color-accent: #F2CC8F;
-    --color-accent-content: var(--color-primary);
-    --color-accent-foreground: var(--color-quaternary);
+    --accent-background: #F2CC8F;
+    --accent-foreground: var(--color-primary);
+    --accent-content: var(--color-quaternary);
 
-    --color-foreground: var(--foreground);
+    --button-primary-foreground: var(--color-quaternary);
+    --button-primary-background: var(--color-primary);
+
+    --border-correct: #31dda1;
+    --border-wrong: #de0f0f; /* deep, highly contrasting red for light theme */
+    --bg-incorrect-selected: oklch(93% 0.13 29); /* light, desaturated red for light theme */
+}
+
+.border-correct {
+    border-color: var(--border-correct);
+    background-color: #bdf1be;
+}
+.border-incorrect {
+    border-color: var(--border-wrong);
+    background-color: #f1a3a3;
+}
+.border-default {
+    border-color: var(--border-default);
+}
+.quiz-answer-default {
+    border-color: var(--border-default);
 }
 
 
 .dark {
+    --color-secondary: oklch(40% 0.07 250);
     --background: #3D405B;
-    --foreground: #F4F1DE;
-    --card-bg: #3D405B;
-    --card-text: #F4F1DE;
-    --border-color: #81B29A;
+    --text-foreground: #F4F1DE;
+    --card-background: #3D405B;
+    --card-foreground: #F4F1DE;
+    --border-default: #D1D5DB;
+    --border-wrong: oklch(65% 0.27 29); /* vivid, highly contrasting red for dark theme */
+    --bg-incorrect-selected: oklch(45% 0.13 29); /* dark, desaturated red for dark theme */
 
-    --color-accent: #F2CC8F;
-    --color-accent-content: #3D405B;
-    --color-accent-foreground: #F4F1DE;
-}
-
-/* Base border color for all elements */
-*,
-::after,
-::before,
-::backdrop,
-::file-selector-button {
-    border-color: var(--border-color, currentColor);
+    --accent-background: #F2CC8F;
+    --accent-foreground: #3D405B;
+    --accent-content: #F4F1DE;
 }

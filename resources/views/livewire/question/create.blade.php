@@ -60,7 +60,6 @@ new class extends Component {
             'explanation' => 'nullable|string|max:200'
         ]);
 
-        // Validate correct answer is within bounds
         if ($this->correct_answer >= count($this->options)) {
             $this->addError('correct_answer', 'Please select a valid correct answer.');
             return;
@@ -70,16 +69,17 @@ new class extends Component {
             'quiz_id' => $this->quiz->id,
             'question' => $this->question,
             'type' => $this->type,
-            'options' => $this->options,
-            'correct_answer' => $this->correct_answer,
             'explanation' => $this->explanation,
             'created_by' => Auth::id()
         ]);
 
-        // Add question ID to quiz's question_ids array
-        $this->quiz->addQuestion($question->id);
+        foreach ($this->options as $index => $optionText) {
+            $question->quizQuestionOptions()->create([
+                'option_text' => $optionText,
+                'is_correct' => $index === $this->correct_answer,
+            ]);
+        }
 
-        // Redirect to edit the question
         $this->redirect(route('questions.edit', [$this->quiz, $question]));
     }
 
@@ -115,13 +115,13 @@ new class extends Component {
             <div class="space-y-6">
                 <div>
                     <label for="question" class="block text-sm font-medium text-[var(--foreground)]">Question Text *</label>
-                    <textarea wire:model="question" id="question" rows="3" placeholder="Enter your question here..." class="mt-1 block w-full px-3 py-2 border border-[var(--border-color)] rounded-md shadow-sm focus:outline-none focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)] bg-[var(--card-bg)] text-[var(--foreground)]"></textarea>
+                    <textarea wire:model="question" id="question" rows="3" placeholder="Enter your question here..." class="mt-1 block w-full px-3 py-2 border border-[var(--border-color)] rounded-md shadow-sm focus:outline-none focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)] bg-[var(--card-background)] text-[var(--foreground)]"></textarea>
                     @error('question') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                 </div>
 
                 <div>
                     <label for="type" class="block text-sm font-medium text-[var(--foreground)]">Question Type *</label>
-                    <select wire:model.live="type" id="type" class="mt-1 block w-40 px-3 py-2 border border-[var(--border-color)] rounded-md shadow-sm focus:outline-none focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)] bg-[var(--card-bg)] text-[var(--foreground)]">
+                    <select wire:model.live="type" id="type" class="mt-1 block w-40 px-3 py-2 border border-[var(--border-color)] rounded-md shadow-sm focus:outline-none focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)] bg-[var(--card-background)] text-[var(--foreground)]">
                         <option value="multiple_choice">Multiple Choice</option>
                         <option value="true_false">True/False</option>
                     </select>
@@ -148,7 +148,7 @@ new class extends Component {
                             <input wire:model="options.{{ $optionIndex }}"
                                    type="text"
                                    placeholder="Option {{ $optionIndex + 1 }}"
-                                   class="flex-1 px-3 py-2 border border-[var(--border-color)] rounded-md shadow-sm focus:outline-none focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)] bg-[var(--card-bg)] text-[var(--foreground)]">
+                                   class="flex-1 px-3 py-2 border border-[var(--border-color)] rounded-md shadow-sm focus:outline-none focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)] bg-[var(--card-background)] text-[var(--foreground)]">
                             @if ($type === 'multiple_choice' && count($options) > 2)
                                 <button type="button" wire:click="removeOption({{ $optionIndex }})" class="text-red-600 hover:text-red-800 p-1">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -165,17 +165,17 @@ new class extends Component {
 
                 <div>
                     <label for="explanation" class="block text-sm font-medium text-[var(--foreground)]">Explanation (optional)</label>
-                    <textarea wire:model="explanation" id="explanation" rows="3" maxlength="200" placeholder="Explain why this is the correct answer..." class="mt-1 block w-full px-3 py-2 border border-[var(--border-color)] rounded-md shadow-sm focus:outline-none focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)] bg-[var(--card-bg)] text-[var(--foreground)]"></textarea>
+                    <textarea wire:model="explanation" id="explanation" rows="3" maxlength="200" placeholder="Explain why this is the correct answer..." class="mt-1 block w-full px-3 py-2 border border-[var(--border-color)] rounded-md shadow-sm focus:outline-none focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)] bg-[var(--card-background)] text-[var(--foreground)]"></textarea>
                     @error('explanation') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                 </div>
             </div>
         </div>
 
         <div class="flex items-center justify-between">
-            <a wire:navigate href="{{ route('quizzes.edit', $quiz) }}" class="px-4 py-2 border border-[var(--border-color)] rounded-md shadow-sm text-sm font-medium text-[var(--foreground)] bg-[var(--card-bg)] hover:bg-[var(--color-tertiary)] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-primary)]">
+            <a wire:navigate href="{{ route('quizzes.edit', $quiz) }}" class="px-4 py-2 border border-[var(--border-color)] rounded-md shadow-sm text-sm font-medium text-[var(--foreground)] bg-[var(--card-background)] hover:bg-[var(--color-tertiary)] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-primary)]">
                 Cancel
             </a>
-            <button type="submit" class="px-6 py-2 bg-[var(--color-primary)] hover:bg-[var(--color-tertiary)] text-[var(--color-accent-foreground)] font-medium rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-primary)]">
+            <button type="submit" class="px-6 py-2 bg-[var(--color-primary)] hover:bg-[var(--color-tertiary)] text-[var(--button-primary-foreground)] font-medium rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-primary)]">
                 <span wire:loading.remove>Create Question</span>
                 <span wire:loading>Creating...</span>
             </button>

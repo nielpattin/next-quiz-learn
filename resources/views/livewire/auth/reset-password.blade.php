@@ -61,7 +61,7 @@ new #[Layout('components.layouts.auth')] class extends Component {
         <div>
             <label for="email" class="block text-sm font-medium text-[var(--foreground)] dark:text-[var(--foreground)]">{{ __('Email') }}</label>
             <div class="mt-1">
-                <input wire:model="email" id="email" name="email" type="email" required autocomplete="email" class="block w-full appearance-none rounded-md border border-[var(--border-color)] dark:border-[var(--border-color)] px-3 py-2 placeholder-[var(--foreground)] dark:placeholder-[var(--foreground)] shadow-sm focus:border-[var(--color-primary)] focus:outline-none focus:ring-[var(--color-primary)] sm:text-sm dark:bg-[var(--card-bg)] dark:border-[var(--border-color)] dark:text-[var(--foreground)]">
+                <input wire:model="email" id="email" name="email" type="email" required autocomplete="email" class="block w-full appearance-none rounded-md border border-[var(--border-color)] dark:border-[var(--border-color)] px-3 py-2 placeholder-[var(--foreground)] dark:placeholder-[var(--foreground)] shadow-sm focus:border-[var(--color-primary)] focus:outline-none focus:ring-[var(--color-primary)] sm:text-sm dark:bg-[var(--card-background)] dark:border-[var(--border-color)] dark:text-[var(--foreground)]">
             </div>
             @error('email') <p class="mt-2 text-sm text-red-600 dark:text-red-400">{{ $message }}</p> @enderror
         </div>
@@ -70,7 +70,7 @@ new #[Layout('components.layouts.auth')] class extends Component {
         <div x-data="{ showPassword: false }">
             <label for="password" class="block text-sm font-medium text-[var(--foreground)] dark:text-[var(--foreground)]">{{ __('Password') }}</label>
             <div class="mt-1 relative rounded-md shadow-sm">
-                <input wire:model="password" id="password" name="password" :type="showPassword ? 'text' : 'password'" required autocomplete="new-password" placeholder="{{ __('Password') }}" class="block w-full appearance-none rounded-md border border-[var(--border-color)] dark:border-[var(--border-color)] px-3 py-2 placeholder-[var(--foreground)] dark:placeholder-[var(--foreground)] shadow-sm focus:border-[var(--color-primary)] focus:outline-none focus:ring-[var(--color-primary)] sm:text-sm dark:bg-[var(--card-bg)] dark:border-[var(--border-color)] dark:text-[var(--foreground)]">
+                <input wire:model="password" id="password" name="password" :type="showPassword ? 'text' : 'password'" required autocomplete="new-password" placeholder="{{ __('Password') }}" class="block w-full appearance-none rounded-md border border-[var(--border-color)] dark:border-[var(--border-color)] px-3 py-2 placeholder-[var(--foreground)] dark:placeholder-[var(--foreground)] shadow-sm focus:border-[var(--color-primary)] focus:outline-none focus:ring-[var(--color-primary)] sm:text-sm dark:bg-[var(--card-background)] dark:border-[var(--border-color)] dark:text-[var(--foreground)]">
                 <div class="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5">
                     <button type="button" @click="showPassword = !showPassword" class="text-[var(--foreground)] dark:text-[var(--foreground)] hover:text-[var(--foreground)] dark:hover:text-[var(--foreground)]">
                         <svg x-show="!showPassword" class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
@@ -90,7 +90,7 @@ new #[Layout('components.layouts.auth')] class extends Component {
         <div x-data="{ showPasswordConfirmation: false }">
             <label for="password_confirmation" class="block text-sm font-medium text-[var(--foreground)] dark:text-[var(--foreground)]">{{ __('Confirm password') }}</label>
             <div class="mt-1 relative rounded-md shadow-sm">
-                <input wire:model="password_confirmation" id="password_confirmation" name="password_confirmation" :type="showPasswordConfirmation ? 'text' : 'password'" required autocomplete="new-password" placeholder="{{ __('Confirm password') }}" class="block w-full appearance-none rounded-md border border-[var(--border-color)] dark:border-[var(--border-color)] px-3 py-2 placeholder-[var(--foreground)] dark:placeholder-[var(--foreground)] shadow-sm focus:border-[var(--color-primary)] focus:outline-none focus:ring-[var(--color-primary)] sm:text-sm dark:bg-[var(--card-bg)] dark:border-[var(--border-color)] dark:text-[var(--foreground)]">
+                <input wire:model="password_confirmation" id="password_confirmation" name="password_confirmation" :type="showPasswordConfirmation ? 'text' : 'password'" required autocomplete="new-password" placeholder="{{ __('Confirm password') }}" class="block w-full appearance-none rounded-md border border-[var(--border-color)] dark:border-[var(--border-color)] px-3 py-2 placeholder-[var(--foreground)] dark:placeholder-[var(--foreground)] shadow-sm focus:border-[var(--color-primary)] focus:outline-none focus:ring-[var(--color-primary)] sm:text-sm dark:bg-[var(--card-background)] dark:border-[var(--border-color)] dark:text-[var(--foreground)]">
                 <div class="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5">
                     <button type="button" @click="showPasswordConfirmation = !showPasswordConfirmation" class="text-[var(--foreground)] dark:text-[var(--foreground)] hover:text-[var(--foreground)] dark:hover:text-[var(--foreground)]">
                         <svg x-show="!showPasswordConfirmation" class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
@@ -107,7 +107,7 @@ new #[Layout('components.layouts.auth')] class extends Component {
         </div>
 
         <div class="flex items-center justify-end">
-            <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-[var(--color-accent-foreground)] bg-[var(--color-accent)] hover:bg-[var(--color-tertiary)] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-accent)] dark:bg-[var(--color-accent)] dark:hover:bg-[var(--color-tertiary)] dark:focus:ring-offset-[var(--color-zinc-800)]">
+            <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-[var(--button-primary-foreground)] bg-[var(--color-accent)] hover:bg-[var(--color-tertiary)] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-accent)] dark:bg-[var(--color-accent)] dark:hover:bg-[var(--color-tertiary)] dark:focus:ring-offset-[var(--color-zinc-800)]">
                 {{ __('Reset password') }}
             </button>
         </div>

@@ -29,7 +29,7 @@ new class extends Component {
     </div>
 
     <div x-data="{ showModal: false }">
-        <button type="button" @click="showModal = true" class="px-4 py-2 bg-red-600 hover:bg-[var(--color-tertiary)] text-[var(--color-accent-foreground)] font-medium rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+        <button type="button" @click="showModal = true" class="px-4 py-2 bg-red-600 hover:bg-[var(--color-tertiary)] text-[var(--button-primary-foreground)] font-medium rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
             {{ __('Delete account') }}
         </button>
 
@@ -39,7 +39,7 @@ new class extends Component {
 
                 <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
 
-                <div x-show="showModal" x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95" x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100" x-transition:leave="ease-in duration-200" x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100" x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95" class="inline-block align-bottom bg-[var(--card-bg)] rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                <div x-show="showModal" x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95" x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100" x-transition:leave="ease-in duration-200" x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100" x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95" class="inline-block align-bottom bg-[var(--card-background)] rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
                     <form wire:submit="deleteUser" class="space-y-6 p-6">
                         <div>
                             <h3 class="text-lg font-medium text-[var(--foreground)]">{{ __('Are you sure you want to delete your account?') }}</h3>
@@ -50,7 +50,7 @@ new class extends Component {
 
                         <div>
                             <label for="password" class="block text-sm font-medium text-[var(--foreground)]">{{ __('Password') }}</label>
-                            <input wire:model="password" id="password" name="password" type="password" class="mt-1 block w-full px-3 py-2 border border-[var(--border-color)] rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500 bg-[var(--card-bg)] text-[var(--foreground)]">
+                            <input wire:model="password" id="password" name="password" type="password" class="mt-1 block w-full px-3 py-2 border border-[var(--border-color)] rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500 bg-[var(--card-background)] text-[var(--foreground)]">
                             @error('password') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                         </div>
 
@@ -58,7 +58,7 @@ new class extends Component {
                             <button type="button" @click="showModal = false" class="px-4 py-2 bg-[var(--color-secondary)] hover:bg-[var(--color-tertiary)] text-[var(--foreground)] font-medium rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-primary)]">
                                 {{ __('Cancel') }}
                             </button>
-                            <button type="submit" class="px-4 py-2 bg-red-600 hover:bg-[var(--color-tertiary)] text-[var(--color-accent-foreground)] font-medium rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                            <button type="submit" class="px-4 py-2 bg-red-600 hover:bg-[var(--color-tertiary)] text-[var(--button-primary-foreground)] font-medium rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
                                 {{ __('Delete account') }}
                             </button>
                         </div>

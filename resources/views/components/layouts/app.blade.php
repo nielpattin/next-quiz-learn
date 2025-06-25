@@ -21,12 +21,12 @@
         <template x-for="toast in toasts" :key="toast.id">
             <div :class="{
                 'bg-[var(--color-primary)]': toast.type === 'success',
-                'bg-red-500': toast.type === 'error',
+                'bg-[var(--color-error)]': toast.type === 'error',
                 'bg-[var(--color-accent)]': toast.type === 'info'
             }"
-                class="text-[var(--color-accent-foreground)] px-4 py-2 rounded-md shadow-lg mb-3 flex items-center justify-between">
+                class="text-[var(--button-primary-foreground)] px-4 py-2 rounded-md shadow-lg mb-3 flex items-center justify-between">
                 <span x-text="toast.message"></span>
-                <button @click="toasts = toasts.filter(t => t.id !== toast.id)" class="ml-4 text-[var(--color-accent-foreground)]">
+                <button @click="toasts = toasts.filter(t => t.id !== toast.id)" class="ml-4 text-[var(--button-primary-foreground)]">
                     &times;
                 </button>
             </div>

@@ -53,7 +53,7 @@
                 </button>
 
                 <div x-show="open" x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95" class="absolute z-50 mt-2 w-56 rounded-md shadow-lg origin-top-end end-0" style="display: none;">
-                    <div class="rounded-md ring-1 ring-black ring-opacity-5 bg-[var(--card-bg)] dark:bg-[var(--card-bg)] shadow-lg">
+                    <div class="rounded-md ring-1 ring-black ring-opacity-5 bg-[var(--card-background)] dark:bg-[var(--card-background)] shadow-lg">
                         <div class="py-1">
                             <div class="px-4 py-2 text-sm text-[var(--foreground)] dark:text-[var(--foreground)]">
                                 <div class="flex items-center gap-2 text-start">

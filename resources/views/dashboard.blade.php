@@ -76,7 +76,7 @@ new class extends Component {
                             <dl>
                                 <dt class="text-sm font-medium text-[var(--foreground)] truncate">Total Questions</dt>
                                 <dd class="text-lg font-medium text-[var(--foreground)]">
-                                    {{ Quiz::where('created_by', Auth::id())->get()->sum(function($quiz) { return is_array($quiz->questions) ? count($quiz->questions) : 0; }) }}
+                                    {{ Quiz::where('created_by', Auth::id())->get()->sum(function($quiz) { return $quiz->questions->count(); }) }}
                                 </dd>
                             </dl>
                         </div>
@@ -133,7 +133,7 @@ new class extends Component {
                         <div class="flex-1 min-w-0">
                             <h3 class="text-sm font-medium text-[var(--foreground)] truncate">{{ $quiz->title }}</h3>
                             <div class="mt-1 flex items-center space-x-4 text-sm text-[var(--foreground)]">
-                                <span>{{ is_array($quiz->questions) ? count($quiz->questions) : 0 }} questions</span>
+                                <span>{{ $quiz->questions->count() }} questions</span>
                                 <span>{{ $quiz->created_at->format('M d, Y') }}</span>
                             </div>
                         </div>

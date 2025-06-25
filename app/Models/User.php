@@ -60,11 +60,11 @@ class User extends Authenticatable
     }
 
     /**
-     * Get the quiz sessions for the user.
+     * Get the quiz attempts for the user.
      */
-    public function quizSessions(): HasMany
+    public function quizAttempts(): HasMany
     {
-        return $this->hasMany(QuizSession::class);
+        return $this->hasMany(QuizAttempt::class);
     }
 
     /**

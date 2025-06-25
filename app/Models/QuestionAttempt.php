@@ -4,33 +4,42 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\Schema;
 
 class QuestionAttempt extends Model
 {
     protected $fillable = [
-        'quiz_session_id',
+        'quiz_attempt_id',
         'question_id',
-        'selected_answer',
-        'is_correct',
+        'question_option_id',
         'answered_at',
         'time_spent',
     ];
 
     protected $casts = [
-        'selected_answer' => 'integer',
-        'is_correct' => 'boolean',
         'answered_at' => 'datetime',
         'time_spent' => 'integer',
     ];
 
-    public function quizSession(): BelongsTo
+    public function quizAttempt(): BelongsTo
     {
-        return $this->belongsTo(QuizSession::class);
+        if (Schema::hasTable('quiz_attempts')) {
+            return $this->belongsTo(QuizAttempt::class);
+        }
+        return $this->belongsTo(QuizAttempt::class)->whereRaw('1=0');
     }
 
     public function question(): BelongsTo
     {
         return $this->belongsTo(Question::class);
+    }
+
+    public function questionOption(): BelongsTo
+    {
+        if (Schema::hasTable('question_options|QuestionOption')) {
+            return $this->belongsTo(question_options|QuestionOption::class);
+        }
+        return $this->belongsTo(question_options|QuestionOption::class)->whereRaw('1=0');
     }
 
     public function getFormattedTimeSpentAttribute(): string

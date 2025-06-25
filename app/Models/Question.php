@@ -2,70 +2,68 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany; // Add this line
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Models\QuestionOption;
 
 class Question extends Model
 {
+    use HasFactory;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
         'quiz_id',
         'question',
         'type',
-        'options',
-        'correct_answer',
         'explanation',
         'created_by',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
     protected $casts = [
-        'options' => 'array',
-        'correct_answer' => 'integer',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
 
+    // Eager load question options by default
+    protected $with = ['questionOptions'];
+
     /**
-     * Get the quiz that owns this question (direct relationship).
+     * Get the quiz that owns the question.
      */
-    public function quiz()
+    public function quiz(): BelongsTo
     {
-        return $this->belongsTo(Quiz::class, 'quiz_id');
+        return $this->belongsTo(Quiz::class);
     }
 
     /**
-     * Get all quizzes that this question belongs to through the pivot table.
+     * Get the user who created the question.
      */
-    public function quizzes()
-    {
-        return $this->belongsToMany(Quiz::class, 'quiz_question')
-                    ->withPivot('order')
-                    ->withTimestamps()
-                    ->orderBy('quiz_question.order');
-    }
-
-    /**
-     * Get the user who created this question.
-     */
-    public function creator()
+    public function creator(): BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by');
     }
 
     /**
-     * Get the question attempts for the question.
+     * Get the options for the question.
      */
-    public function questionAttempts(): HasMany
+    public function questionOptions(): HasMany
+    {
+        return $this->hasMany(QuestionOption::class);
+    }
+
+    /**
+     * Alias for questionOptions to support legacy or alternate naming.
+     */
+    public function quizQuestionOptions(): HasMany
+    {
+        return $this->questionOptions();
+    }
+
+    /**
+     * Get the attempts for the question.
+     */
+    public function attempts(): HasMany
     {
         return $this->hasMany(QuestionAttempt::class);
     }

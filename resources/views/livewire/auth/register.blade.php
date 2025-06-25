@@ -54,7 +54,7 @@ new #[Layout('components.layouts.auth')] class extends Component {
                 autofocus
                 autocomplete="name"
                 placeholder="{{ __('Full name') }}"
-                class="mt-1 block w-full px-3 py-2 border border-[var(--border-color)] rounded-md shadow-sm placeholder-[var(--foreground)] focus:outline-none focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)] dark:bg-[var(--card-bg)] dark:border-[var(--border-color)] dark:placeholder-[var(--foreground)] dark:text-[var(--foreground)]"
+                class="mt-1 block w-full px-3 py-2 border border-[var(--border-color)] rounded-md shadow-sm placeholder-[var(--foreground)] focus:outline-none focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)] dark:bg-[var(--card-background)] dark:border-[var(--border-color)] dark:placeholder-[var(--foreground)] dark:text-[var(--foreground)]"
             />
             @error('name') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
         </div>
@@ -71,7 +71,7 @@ new #[Layout('components.layouts.auth')] class extends Component {
                 required
                 autocomplete="email"
                 placeholder="email@example.com"
-                class="mt-1 block w-full px-3 py-2 border border-[var(--border-color)] rounded-md shadow-sm placeholder-[var(--foreground)] focus:outline-none focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)] dark:bg-[var(--card-bg)] dark:border-[var(--border-color)] dark:placeholder-[var(--foreground)] dark:text-[var(--foreground)]"
+                class="mt-1 block w-full px-3 py-2 border border-[var(--border-color)] rounded-md shadow-sm placeholder-[var(--foreground)] focus:outline-none focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)] dark:bg-[var(--card-background)] dark:border-[var(--border-color)] dark:placeholder-[var(--foreground)] dark:text-[var(--foreground)]"
             />
             @error('email') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
         </div>
@@ -88,7 +88,7 @@ new #[Layout('components.layouts.auth')] class extends Component {
                 required
                 autocomplete="new-password"
                 placeholder="{{ __('Password') }}"
-                class="mt-1 block w-full px-3 py-2 border border-[var(--border-color)] rounded-md shadow-sm placeholder-[var(--foreground)] focus:outline-none focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)] dark:bg-[var(--card-bg)] dark:border-[var(--border-color)] dark:placeholder-[var(--foreground)] dark:text-[var(--foreground)]"
+                class="mt-1 block w-full px-3 py-2 border border-[var(--border-color)] rounded-md shadow-sm placeholder-[var(--foreground)] focus:outline-none focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)] dark:bg-[var(--card-background)] dark:border-[var(--border-color)] dark:placeholder-[var(--foreground)] dark:text-[var(--foreground)]"
             />
             @error('password') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
         </div>
@@ -105,13 +105,13 @@ new #[Layout('components.layouts.auth')] class extends Component {
                 required
                 autocomplete="new-password"
                 placeholder="{{ __('Confirm password') }}"
-                class="mt-1 block w-full px-3 py-2 border border-[var(--border-color)] rounded-md shadow-sm placeholder-[var(--foreground)] focus:outline-none focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)] dark:bg-[var(--card-bg)] dark:border-[var(--border-color)] dark:placeholder-[var(--foreground)] dark:text-[var(--foreground)]"
+                class="mt-1 block w-full px-3 py-2 border border-[var(--border-color)] rounded-md shadow-sm placeholder-[var(--foreground)] focus:outline-none focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)] dark:bg-[var(--card-background)] dark:border-[var(--border-color)] dark:placeholder-[var(--foreground)] dark:text-[var(--foreground)]"
             />
             @error('password_confirmation') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
         </div>
 
         <div class="flex items-center justify-end">
-            <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-[var(--color-accent-foreground)] bg-[var(--color-primary)] hover:bg-[var(--color-tertiary)] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-primary)]">
+            <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-[var(--button-primary-foreground)] bg-[var(--color-primary)] hover:bg-[var(--color-tertiary)] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-primary)]">
                 {{ __('Create account') }}
             </button>
         </div>
