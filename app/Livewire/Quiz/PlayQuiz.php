@@ -125,6 +125,11 @@ class PlayQuiz extends Component
         return $score;
     }
 
+    public function getIsQuestionAnsweredProperty()
+    {
+        return $this->answerLocked === true;
+    }
+
     public function render()
     {
         return view('livewire.quiz.play-quiz', [
@@ -134,6 +139,7 @@ class PlayQuiz extends Component
             'selectedOptionId' => $this->selectedOptionId,
             'isCorrect' => $this->isCorrect,
             'answerLocked' => $this->answerLocked,
+            'isQuestionAnswered' => $this->isQuestionAnswered,
             'score' => method_exists($this, 'getScoreProperty') ? $this->getScoreProperty() : null,
         ])->layout('components.layouts.app');
     }
