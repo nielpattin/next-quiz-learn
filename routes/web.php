@@ -14,7 +14,7 @@ Route::get('/dashboard', function () {
     $recentQuizzes = Quiz::latest()->take(5)->get();
 
     return view('dashboard', compact('totalQuizzes', 'publicQuizzes', 'recentQuizzes'));
-})->middleware(['auth', 'verified'])->name('dashboard');
+})->middleware(['auth', 'verified', \App\Http\Middleware\AdminMiddleware::class])->name('dashboard');
 
 Route::middleware(['auth'])->group(function () {
     // Quiz management routes
