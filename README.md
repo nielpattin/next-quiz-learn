@@ -162,15 +162,28 @@ Toàn bộ chức năng CRUD và làm bài được triển khai qua Livewire SP
 - **Question CRUD**: Quản lý câu hỏi trong quiz ([`app/Livewire/Quiz/PlayQuiz.php`](app/Livewire/Quiz/PlayQuiz.php:14)), thêm/sửa/xóa câu hỏi, đáp án, giải thích.
 - **QuizAttempt**: Theo dõi tiến trình làm bài, lưu lịch sử, phân tích kết quả ([`app/Livewire/Quiz/ShowQuizAttemptReport.php`](app/Livewire/Quiz/ShowQuizAttemptReport.php:10)).
 
-## 5. Đảm bảo các yêu cầu Security
+## 5. Đảm bảo các yêu cầu Security (và hướng dẫn demo thử trực tiếp)
 
-- **CSRF Protection**: Sử dụng @csrf trong tất cả các form Livewire, bảo vệ khỏi tấn công CSRF.
-- **XSS Prevention**: Sử dụng `{{ }}` cho output, không dùng `{!! !!}` với dữ liệu người dùng, escape toàn bộ input/output.
-- **Data Validation**: Validation rules chặt chẽ trong các component Livewire, kiểm tra dữ liệu đầu vào ở cả client và server.
-- **Authentication & Authorization**: Middleware và policy kiểm soát truy cập, chỉ cho phép user hợp lệ thao tác với dữ liệu của mình.
-- **Session & Cookies**: Sử dụng session/cookie Laravel, cấu hình secure, httpOnly, bảo vệ thông tin đăng nhập.
-- **SQL Injection Prevention**: Chỉ dùng Eloquent ORM và Query Builder, không thực thi query raw với dữ liệu người dùng.
-- **Kiểm thử Security**: Đã kiểm thử các trường hợp CSRF, XSS, validation, authentication, authorization, session/cookies, SQL injection.
+- **CSRF Protection**:
+  - Tất cả các form đều có `@csrf` (tự động với Livewire/Laravel).
+  - demo: Xóa dòng `@csrf` trong 1 form bất kỳ, submit sẽ báo lỗi 419 (CSRF token mismatch).
+- **XSS Prevention**:
+  - Output dữ liệu luôn dùng `{{ $var }}` (không dùng `{!! !!}` với dữ liệu user nhập).
+  - demo: Thử nhập `<script>alert(1)</script>` vào bất kỳ trường input, lưu lại và kiểm tra, sẽ không thực thi script.
+- **Data Validation**:
+  - Tất cả dữ liệu nhập đều có validate ở cả client (HTML5) và server (Livewire rules).
+  - demo: Nhập dữ liệu sai (ví dụ email không hợp lệ), hệ thống sẽ báo lỗi và không lưu.
+- **Authentication & Authorization**:
+  - Các route quan trọng đều có middleware bảo vệ, policy kiểm soát quyền.
+  - demo: Đăng nhập bằng user thường, truy cập trang admin sẽ bị báo lỗi 403 hoặc redirect.
+- **Session & Cookies**:
+  - Laravel tự động cấu hình session/cookie secure, httpOnly.
+  - demo: Đăng nhập, kiểm tra cookie trong trình duyệt, sẽ thấy flag `httpOnly` và `secure` (nếu chạy HTTPS).
+- **SQL Injection Prevention**:
+  - Chỉ dùng Eloquent/Query Builder, không dùng query raw với input user.
+  - demo: Thử nhập `' OR 1=1 --` vào ô tìm kiếm, hệ thống không trả về toàn bộ dữ liệu.
+- **Kiểm thử Security**:
+  - Đã kiểm thử các trường hợp trên bằng cách cố tình nhập dữ liệu nguy hiểm hoặc thao tác trái phép, hệ thống đều bảo vệ thành công.
 
 ## 6. Áp dụng kỹ thuật Eloquent để migrate các Objects trực tiếp vào dữ liệu trên Cloud
 
