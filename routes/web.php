@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Models\Quiz;
 use Livewire\Volt\Volt;
 
 Route::get('/', function () {

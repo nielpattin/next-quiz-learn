@@ -112,6 +112,72 @@ Toàn bộ chức năng CRUD và làm bài được triển khai qua Livewire SP
 - **QuizAttempt**: id, quiz_id, user_id, status, started_at, completed_at, score, ...
 - **QuestionAttempt**: id, quiz_attempt_id, question_id, selected_answer, is_correct, answered_at, ...
 
+### ERD Database (Mermaid)
+
+```mermaid
+erDiagram
+    USER {
+        int id PK
+        string name
+        string email
+        string password
+        datetime email_verified_at
+        string role
+        int credit
+        datetime created_at
+        datetime updated_at
+    }
+    QUIZ {
+        int id PK
+        string title
+        string description
+        boolean is_public
+        string difficulty_level
+        string category
+        int created_by FK
+        datetime created_at
+        datetime updated_at
+    }
+    QUESTION {
+        int id PK
+        int quiz_id FK
+        string question
+        json options
+        string correct_answer
+        string explanation
+        int created_by FK
+        datetime created_at
+        datetime updated_at
+    }
+    QUIZATTEMPT {
+        int id PK
+        int quiz_id FK
+        int user_id FK
+        string status
+        datetime started_at
+        datetime completed_at
+        int score
+        datetime created_at
+        datetime updated_at
+    }
+    QUESTION_ATTEMPT {
+        int id PK
+        int quiz_attempt_id FK
+        int question_id FK
+        string selected_answer
+        boolean is_correct
+        datetime answered_at
+        datetime created_at
+        datetime updated_at
+    }
+
+    USER ||--o{ QUIZ : creates
+    USER ||--o{ QUIZATTEMPT : attempts
+    QUIZ ||--o{ QUESTION : has
+    QUIZ ||--o{ QUIZATTEMPT : "is attempted in"
+    QUESTION ||--o{ QUESTION_ATTEMPT : "is answered in"
+    QUIZATTEMPT ||--o{ QUESTION_ATTEMPT : contains
+```
 ---
 
 ## Technical Stack
@@ -162,14 +228,12 @@ Toàn bộ chức năng CRUD và làm bài được triển khai qua Livewire SP
 - **Question CRUD**: Quản lý câu hỏi trong quiz ([`app/Livewire/Quiz/PlayQuiz.php`](app/Livewire/Quiz/PlayQuiz.php:14)), thêm/sửa/xóa câu hỏi, đáp án, giải thích.
 - **QuizAttempt**: Theo dõi tiến trình làm bài, lưu lịch sử, phân tích kết quả ([`app/Livewire/Quiz/ShowQuizAttemptReport.php`](app/Livewire/Quiz/ShowQuizAttemptReport.php:10)).
 
-## 5. Đảm bảo các yêu cầu Security (và hướng dẫn demo thử trực tiếp)
+## 5. Đảm bảo các yêu cầu Security
 
 - **CSRF Protection**:
   - Tất cả các form đều có `@csrf` (tự động với Livewire/Laravel).
-  - demo: Xóa dòng `@csrf` trong 1 form bất kỳ, submit sẽ báo lỗi 419 (CSRF token mismatch).
 - **XSS Prevention**:
   - Output dữ liệu luôn dùng `{{ $var }}` (không dùng `{!! !!}` với dữ liệu user nhập).
-  - demo: Thử nhập `<script>alert(1)</script>` vào bất kỳ trường input, lưu lại và kiểm tra, sẽ không thực thi script.
 - **Data Validation**:
   - Tất cả dữ liệu nhập đều có validate ở cả client (HTML5) và server (Livewire rules).
   - demo: Nhập dữ liệu sai (ví dụ email không hợp lệ), hệ thống sẽ báo lỗi và không lưu.
@@ -181,7 +245,6 @@ Toàn bộ chức năng CRUD và làm bài được triển khai qua Livewire SP
   - demo: Đăng nhập, kiểm tra cookie trong trình duyệt, sẽ thấy flag `httpOnly` và `secure` (nếu chạy HTTPS).
 - **SQL Injection Prevention**:
   - Chỉ dùng Eloquent/Query Builder, không dùng query raw với input user.
-  - demo: Thử nhập `' OR 1=1 --` vào ô tìm kiếm, hệ thống không trả về toàn bộ dữ liệu.
 - **Kiểm thử Security**:
   - Đã kiểm thử các trường hợp trên bằng cách cố tình nhập dữ liệu nguy hiểm hoặc thao tác trái phép, hệ thống đều bảo vệ thành công.
 
