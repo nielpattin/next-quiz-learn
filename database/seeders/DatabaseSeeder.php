@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@gmail.com',
             'password' => bcrypt('password'), // You might want to use a more secure password in production
             'role' => 'admin',
+            'credit' => 35,
         ]);
 
         $regularUser = User::create([
@@ -29,6 +30,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'user@gmail.com',
             'password' => bcrypt('password'), // You might want to use a more secure password in production
             'role' => 'user',
+            'credit' => 35,
         ]);
 
         // Load quiz data from QuizSeedData.php
@@ -43,6 +45,7 @@ class DatabaseSeeder extends Seeder
                 'description' => $quiz['description'],
                 'created_by' => $ownerId,
                 'is_public' => true,
+                'is_pro' => $quiz['is_pro'] ?? false,
             ]);
 
             foreach ($quiz['questions'] as $q) {

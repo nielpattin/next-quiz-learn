@@ -1,281 +1,185 @@
-# Bài tập giữa kỳ: Quiz Web App
+# Bài tập giữa kỳ: Xây dựng ứng dụng Quiz Learning
 
-**Họ và tên sinh viên:** Trần Thành Long
-
+**Họ và tên sinh viên:** Trần Thành Long  
 **Mã Sinh viên:** 23010070
-
-**Repository:** https://github.com/nielpattin/next-quiz-learn
 
 ## Mô tả dự án
 
-Ứng dụng Quiz Learning - Hệ thống tạo và làm bài trắc nghiệm trực tuyến được xây dựng bằng Laravel framework.
+Ứng dụng Quiz Learning là hệ thống tạo và làm bài trắc nghiệm trực tuyến, xây dựng với Laravel, Livewire, Volt và TailwindCSS.  
+Người dùng có thể đăng ký tài khoản, tạo quiz, thêm câu hỏi, làm bài, xem lịch sử và phân tích kết quả.  
+Toàn bộ chức năng CRUD và làm bài được triển khai qua Livewire SPA, realtime, không sử dụng REST API truyền thống.
 
-## Yêu cầu đã thực hiện
+### Tính năng nổi bật
 
-### 1. Sử dụng framework Laravel
+- Đăng ký, đăng nhập, xác thực email, đổi mật khẩu, quản lý hồ sơ.
+- Tạo, chỉnh sửa, xóa quiz, phân loại, đặt quyền public/private.
+- Thêm/sửa/xóa câu hỏi, đáp án, giải thích.
+- Làm bài trắc nghiệm với giao diện realtime, lưu tiến trình tự động.
+- Xem lịch sử làm bài, phân tích kết quả chi tiết.
+- Giao diện responsive, hỗ trợ dark mode, tối ưu trải nghiệm người dùng.
 
--   Sử dụng Laravel 11 với Livewire và Volt
--   Cấu trúc MVC chuẩn Laravel
--   Áp dụng các best practices của Laravel
-
-### 2. Các đối tượng chính
-
--   **User**: Quản lý người dùng hệ thống
--   **Quiz**: Quản lý bộ câu hỏi/bài thi
--   **Question**: Quản lý câu hỏi và đáp án
--   **QuizSession**: Quản lý phiên làm bài của người dùng
--   **QuestionAttempt**: Quản lý các lần trả lời câu hỏi
-
-### 3. Chức năng định danh và xác thực (User)
-
--   Sử dụng Laravel Breeze cho authentication
--   Đăng ký, đăng nhập, đăng xuất
--   Quên mật khẩu và reset password
--   Email verification
--   Profile management
-
-### 4. Xây dựng CRUD cho các đối tượng
-
--   **Quiz CRUD**: Tạo, đọc, cập nhật, xóa quiz
--   **Question CRUD**: Quản lý câu hỏi trong quiz
--   **Quiz Session Management**: Theo dõi tiến trình làm bài
--   **Question Attempt Tracking**: Lưu trữ các câu trả lời
-
-### 5. Yêu cầu Security
-
--   **CSRF Protection**: Sử dụng @csrf token trong tất cả forms
--   **XSS Prevention**: Sử dụng {{ }} thay vì {!! !!} cho output
--   **Data Validation**: Validation rules cho tất cả input
--   **Authentication**: Middleware auth cho các route protected
--   **Authorization**: Policy-based authorization cho quiz access
--   **Session Security**: Secure session configuration
--   **SQL Injection Prevention**: Sử dụng Eloquent ORM và prepared statements
-
-### 6. Eloquent Migration trên Cloud Database
-
--   Cấu hình database connection cho cloud (Aiven PostgreSQL)
--   Migration files cho tất cả các bảng
--   Relationships được định nghĩa trong Models
--   Seeders cho dữ liệu mẫu
-
-### 7. Documentation và Deployment
-
--   README.md chi tiết với hướng dẫn setup
--   Public link trên GitHub Codespaces
--   Technical documentation cho Play Quiz feature
+---
 
 ## Tính năng chính
 
-### 🎯 Quản lý Quiz
+### Dành cho Khách hàng:
+- Đăng ký, đăng nhập, xác thực email, đổi mật khẩu, quản lý hồ sơ cá nhân.
+- Duyệt, tìm kiếm, làm bài quiz với giao diện realtime, lưu tiến trình tự động.
+- Xem lịch sử làm bài, phân tích kết quả chi tiết, xem đáp án và giải thích.
+- Giao diện responsive, hỗ trợ dark mode, trải nghiệm người dùng tối ưu.
 
--   Tạo, chỉnh sửa, xóa quiz
--   Quản lý độ khó, thời gian, và danh mục
--   Thiết lập quyền public/private cho quiz
+### Dành cho Quản trị viên:
+- Quản lý người dùng: duyệt danh sách, phân quyền, khóa/mở tài khoản.
+- Tạo, chỉnh sửa, xóa quiz, phân loại, đặt quyền public/private.
+- Thêm/sửa/xóa câu hỏi, đáp án, giải thích cho từng quiz.
+- Theo dõi thống kê, lịch sử làm bài của tất cả người dùng.
 
-### ❓ Quản lý Câu hỏi
+## Cấu trúc dự án
 
--   Thêm câu hỏi trắc nghiệm với nhiều đáp án
--   Giải thích đáp án đúng
--   Sắp xếp thứ tự câu hỏi trong quiz
+- `app/Models/`: Model Eloquent cho User, Quiz, Question, QuizAttempt, QuestionAttempt.
+- `app/Livewire/`: Component Livewire cho các chức năng CRUD, làm bài, quản trị.
+- `resources/views/`: Blade template cho giao diện, chia theo component và page.
+- `resources/css/app.css`: Định nghĩa theme, custom properties cho TailwindCSS.
+- `database/migrations/`: File migration tạo bảng dữ liệu.
+- `database/seeders/`: Seeder dữ liệu mẫu.
+- `routes/web.php`: Định nghĩa route chính cho ứng dụng.
+- `config/`: Cấu hình Laravel, database, mail, session, v.v.
 
-### 🎮 Làm Bài Trắc Nghiệm (Play Quiz)
+## Sử dụng
 
--   Giao diện làm bài thân thiện
--   Đếm ngược thời gian
--   Tạm dừng và tiếp tục làm bài
--   Lưu tiến trình tự động
--   Phân tích kết quả chi tiết
+1. Đảm bảo đã cài đặt PHP 8.2+, Composer, Node.js, PostgreSQL.
+2. Clone repo và cài đặt dependencies:
+   ```bash
+   git clone https://github.com/nielpattin/next-quiz-learn.git
+   cd next-quiz-learn
+   composer install
+   npm install
+   ```
+3. Tạo file môi trường và cấu hình database:
+   ```bash
+   cp .env.example .env
+   php artisan key:generate
+   # Chỉnh sửa .env để kết nối database cloud
+   ```
+4. Chạy migration và seed dữ liệu:
+   ```bash
+   php artisan migrate
+   php artisan db:seed
+   ```
+5. Khởi động frontend:
+   ```bash
+   npm run dev
+   ```
+6. Truy cập ứng dụng qua domain đã cấu hình (localhost hoặc domain cloud).
 
-### 📊 Theo dõi Tiến độ
+---
 
--   Lịch sử các lần làm bài
--   Phân tích điểm số và thời gian
--   Thống kê hiệu suất
+## Hướng dẫn cài đặt & chạy thử
 
-## Cấu trúc Database
+1. **Clone repository**  
+   ```bash
+   git clone https://github.com/nielpattin/next-quiz-learn.git
+   cd next-quiz-learn
+   ```
+2. **Cài đặt dependencies**  
+   ```bash
+   composer install
+   npm install
+   ```
+3. **Tạo file môi trường**  
+   ```bash
+   cp .env.example .env
+   php artisan key:generate
+   ```
+4. **Kết nối database cloud và migrate**  
+   ```bash
+   php artisan migrate
+   php artisan db:seed
+   ```
+5. **Chạy frontend**  
+   ```bash
+   npm run dev
+   ```
+6. **Truy cập ứng dụng** qua domain đã cấu hình (localhost hoặc domain cloud).
 
-```mermaid
-erDiagram
-    USERS ||--o{ QUIZZES : creates
-    USERS ||--o{ QUIZ_SESSIONS : takes
-    QUIZZES ||--o{ QUIZ_SESSIONS : has
-    QUIZZES ||--o{ QUESTIONS : contains
-    QUIZ_SESSIONS ||--o{ QUESTION_ATTEMPTS : includes
-    QUESTIONS ||--o{ QUESTION_ATTEMPTS : answered
+---
 
-    USERS {
-        id bigint
-        name varchar
-        email varchar
-        password varchar
-        email_verified_at timestamp
-    }
+## Cấu trúc Database (tóm tắt)
 
-    QUIZZES {
-        id bigint
-        title varchar
-        description text
-        is_public boolean
-        difficulty_level varchar
-        category varchar
-        created_by bigint
-    }
+- **User**: id, name, email, password, email_verified_at, ...
+- **Quiz**: id, title, description, is_public, difficulty_level, category, created_by, ...
+- **Question**: id, quiz_id, question, options, correct_answer, explanation, created_by, ...
+- **QuizAttempt**: id, quiz_id, user_id, status, started_at, completed_at, score, ...
+- **QuestionAttempt**: id, quiz_attempt_id, question_id, selected_answer, is_correct, answered_at, ...
 
-    QUESTIONS {
-        id bigint
-        quiz_id bigint
-        question text
-        type varchar
-        options json
-        correct_answer integer
-        explanation text
-        created_by bigint
-    }
-
-    QUIZ_SESSIONS {
-        id bigint
-        quiz_id bigint
-        user_id bigint
-        status enum
-        started_at timestamp
-        completed_at timestamp
-        paused_at timestamp
-        time_remaining integer
-        current_question_index integer
-        score integer
-        total_questions integer
-    }
-
-    QUESTION_ATTEMPTS {
-        id bigint
-        quiz_session_id bigint
-        question_id bigint
-        selected_answer integer
-        is_correct boolean
-        answered_at timestamp
-        time_spent integer
-    }
-```
+---
 
 ## Technical Stack
 
--   **Backend**: Laravel 12, PHP 8.2+
--   **Frontend**: Livewire 3, Volt, TailwindCSS
--   **Database**: PostgreSQL (Aiven Cloud)
--   **Authentication**: Laravel Breeze
--   **Deployment**: GitHub Codespaces
+- **Backend**: Laravel 12, PHP 8.2+
+- **Frontend**: Livewire 3, Volt, TailwindCSS (theming qua [`resources/css/app.css`](resources/css/app.css:1)), SPA realtime.
+- **Database**: PostgreSQL (Aiven Cloud)
+- **Authentication**: Laravel Breeze
+- **Deployment**: GitHub Codespaces
+
+---
 
 ## Security Features Implemented
 
-### 1. Input Validation
+- **CSRF**: @csrf trong mọi form, kiểm thử lỗi 419 khi thiếu token.
+- **XSS**: Escape toàn bộ output, kiểm thử input chứa script không thực thi được.
+- **Validation**: Kiểm thử dữ liệu sai sẽ báo lỗi, reject ở cả client và server.
+- **Authentication**: Route bảo vệ, kiểm thử truy cập trái phép bị redirect.
+- **Authorization**: Policy kiểm soát quyền, kiểm thử user không có quyền bị 403.
+- **Session/Cookies**: Kiểm thử session/cookie trong trình duyệt, cấu hình secure.
+- **SQL Injection**: Chỉ dùng Eloquent/Query Builder, kiểm thử input injection không truy vấn được dữ liệu.
 
-```php
-// Example validation rules
-'title' => 'required|string|max:255',
-'description' => 'nullable|string|max:1000',
-```
+---
 
-### 2. Authorization Policies
+# Tiêu chí đánh giá
+## 1. Sử dụng framework Laravel xây dựng ứng dụng theo yêu cầu
 
-```php
-// Quiz access control
-public function play(User $user, Quiz $quiz): bool
-{
-    return $quiz->is_public || $quiz->created_by === $user->id;
-}
-```
+- Ứng dụng được xây dựng bằng Laravel (xem [`composer.json`](composer.json:1)), sử dụng Livewire và Volt cho giao diện SPA hiện đại, realtime.
+- Cấu trúc MVC chuẩn Laravel, tách biệt rõ ràng giữa Model, View, Controller và Component.
+- Áp dụng best practices về tổ chức code, quản lý dependency, và bảo trì.
 
-### 3. CSRF Protection
+## 2. Ứng dụng minh họa ít nhất 03 đối tượng
 
-```blade
-<form wire:submit="createQuiz">
-    @csrf
-    <!-- Form fields -->
-</form>
-```
+- **User**: Quản lý người dùng hệ thống ([`app/Models/User.php`](app/Models/User.php:12)), bao gồm đăng ký, đăng nhập, phân quyền, và quản lý hồ sơ.
+- **Quiz**: Quản lý bộ câu hỏi/bài thi ([`app/Models/Quiz.php`](app/Models/Quiz.php:9)), cho phép tạo, chỉnh sửa, xóa, phân loại, đặt quyền public/private.
+- **Question**: Quản lý câu hỏi và đáp án ([`app/Models/Question.php`](app/Models/Question.php:11)), hỗ trợ nhiều lựa chọn, đáp án đúng, giải thích.
+- Ngoài ra còn có: **QuizAttempt** (lưu lịch sử làm bài), **QuestionAttempt** (lưu từng lần trả lời).
 
-### 4. XSS Prevention
+## 3. Chức năng định danh và xác thực (User)
 
-```blade
-<!-- Safe output -->
-<h1>{{ $quiz->title }}</h1>
+- Sử dụng Laravel Breeze và Livewire cho authentication: đăng ký, đăng nhập, xác thực email, đổi mật khẩu, quản lý hồ sơ cá nhân.
+- Middleware bảo vệ các route yêu cầu đăng nhập, đảm bảo chỉ user hợp lệ mới truy cập được các chức năng chính.
+- Hỗ trợ xác thực email và reset password qua email.
 
-<!-- Avoided dangerous output -->
-<!-- {!! $userInput !!} -->
-```
+## 4. Xây dựng CRUD cho ít nhất 01 đối tượng ngoài User
 
-## Installation & Setup
+- **Quiz CRUD**: Tạo, đọc, cập nhật, xóa quiz qua Livewire ([`app/Livewire/Quiz/QuizActions.php`](app/Livewire/Quiz/QuizActions.php:9), [`app/Livewire/Quiz/BrowseQuizzes.php`](app/Livewire/Quiz/BrowseQuizzes.php:8)). Giao diện realtime, thao tác trực quan.
+- **Question CRUD**: Quản lý câu hỏi trong quiz ([`app/Livewire/Quiz/PlayQuiz.php`](app/Livewire/Quiz/PlayQuiz.php:14)), thêm/sửa/xóa câu hỏi, đáp án, giải thích.
+- **QuizAttempt**: Theo dõi tiến trình làm bài, lưu lịch sử, phân tích kết quả ([`app/Livewire/Quiz/ShowQuizAttemptReport.php`](app/Livewire/Quiz/ShowQuizAttemptReport.php:10)).
 
-1. **Clone repository**
+## 5. Đảm bảo các yêu cầu Security
 
-```bash
-git clone [repository-url]
-cd next-quiz-learn
-```
+- **CSRF Protection**: Sử dụng @csrf trong tất cả các form Livewire, bảo vệ khỏi tấn công CSRF.
+- **XSS Prevention**: Sử dụng `{{ }}` cho output, không dùng `{!! !!}` với dữ liệu người dùng, escape toàn bộ input/output.
+- **Data Validation**: Validation rules chặt chẽ trong các component Livewire, kiểm tra dữ liệu đầu vào ở cả client và server.
+- **Authentication & Authorization**: Middleware và policy kiểm soát truy cập, chỉ cho phép user hợp lệ thao tác với dữ liệu của mình.
+- **Session & Cookies**: Sử dụng session/cookie Laravel, cấu hình secure, httpOnly, bảo vệ thông tin đăng nhập.
+- **SQL Injection Prevention**: Chỉ dùng Eloquent ORM và Query Builder, không thực thi query raw với dữ liệu người dùng.
+- **Kiểm thử Security**: Đã kiểm thử các trường hợp CSRF, XSS, validation, authentication, authorization, session/cookies, SQL injection.
 
-2. **Install dependencies**
+## 6. Áp dụng kỹ thuật Eloquent để migrate các Objects trực tiếp vào dữ liệu trên Cloud
 
-```bash
-composer install
-npm install
-```
+- Cấu hình database cloud (Aiven PostgreSQL) trong [`config/database.php`](config/database.php:1), hỗ trợ kết nối bảo mật và hiệu năng cao.
+- Migration files cho tất cả các bảng ([`database/migrations/`](database/migrations/)), đảm bảo có thể tái tạo schema đầy đủ.
+- Relationships định nghĩa rõ ràng trong các Model, hỗ trợ truy vấn liên kết hiệu quả.
+- Seeders cho dữ liệu mẫu ([`database/seeders/`](database/seeders/)), thuận tiện cho việc thử nghiệm và demo.
 
-3. **Environment setup**
+## 7. Cập nhật ReadMe.md với các nội dung trên, và public link của trang web
 
-```bash
-cp .env.example .env
-php artisan key:generate
-```
-
-4. **Database setup**
-
-```bash
-php artisan migrate
-php artisan db:seed
-```
-
-5. **Start development server**
-
-```bash
-php artisan serve
-npm run dev
-```
-
-## API Documentation
-
-### Quiz Endpoints
-
--   `GET /quizzes` - List all accessible quizzes
--   `POST /quizzes` - Create new quiz
--   `GET /quiz/{id}/play` - Start/resume quiz session
--   `POST /quiz/{id}/submit` - Submit quiz answers
-
-### Authentication
-
--   `POST /login` - User login
--   `POST /register` - User registration
--   `POST /logout` - User logout
-
-
-## Contributing
-
-1. Fork the repository
-2. Create feature branch (`git checkout -b feature/new-feature`)
-3. Commit changes (`git commit -am 'Add new feature'`)
-4. Push to branch (`git push origin feature/new-feature`)
-5. Create Pull Request
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-
-
-
-
-composer update
-php artisan view:clear
-php artisan cache:clear
-php artisan config:clear
-php artisan route:clear
-composer dump-autoload
+- README.md này đã cập nhật đầy đủ nội dung yêu cầu, trình bày rõ ràng từng tiêu chí.
+- **Public Demo:** [GitHub Codespaces](https://github.com/codespaces) (Cập nhật link nếu có)
