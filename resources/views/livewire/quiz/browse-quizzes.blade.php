@@ -1,6 +1,15 @@
 <div class="container mx-auto p-4">
     <h1 class="text-3xl font-bold text-foreground mb-6">Browse Public Quizzes</h1>
 
+    <div class="mb-6 max-w-lg">
+        <input
+            wire:model.live="search"
+            type="text"
+            placeholder="Search quizzes..."
+            class="w-full px-3 py-2 border border-[var(--border-color)] rounded-md shadow-sm focus:outline-none focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)] bg-[var(--card-background)] text-[var(--foreground)]"
+        >
+    </div>
+
     @if ($quizzes->isEmpty())
         <p class="text-foreground">No public quizzes available at the moment.</p>
     @else

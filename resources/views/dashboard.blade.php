@@ -18,6 +18,18 @@ new class extends Component {
             ->limit(5)
             ->get();
     }
+
+    public function deleteQuiz($quizId)
+    {
+        $quiz = Quiz::findOrFail($quizId);
+        $quiz->delete();
+        $this->recentQuizzes = Quiz::where('created_by', Auth::id())
+            ->orderBy('updated_at', 'desc')
+            ->limit(5)
+            ->get();
+        $this->totalQuizzes = Quiz::where('created_by', Auth::id())->count();
+        $this->publicQuizzes = Quiz::where('created_by', Auth::id())->where('is_public', true)->count();
+    }
 }; ?>
 
 <x-layouts.app :title="__('Dashboard')">
@@ -138,7 +150,17 @@ new class extends Component {
                             </div>
                         </div>
                         <div class="flex items-center space-x-2">
-                            <a wire:navigate href="{{ route('quizzes.edit', $quiz->id) }}" class="text-[var(--foreground)] hover:text-[var(--foreground)] text-sm font-medium">Edit</a>
+                            @if($quiz->created_by == Auth::id())
+                                <a wire:navigate href="{{ route('quizzes.edit', $quiz->id) }}" class="text-[var(--foreground)] hover:text-[var(--foreground)] text-sm font-medium">Edit</a>
+                            @endif
+                            <a wire:navigate href="{{ route('quiz.show', $quiz->id) }}" class="text-[var(--color-primary)] hover:underline text-sm font-medium ml-2">View</a>
+                            <form wire:submit.prevent="deleteQuiz({{ $quiz->id }})" class="inline ml-2">
+                                <button type="submit"
+                                    onclick="return confirm('Are you sure you want to delete this quiz?');"
+                                    class="text-[var(--color-danger)] hover:underline text-sm font-medium">
+                                    Delete
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>
