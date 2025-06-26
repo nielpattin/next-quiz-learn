@@ -1,39 +1,5 @@
-<?php
-
-use App\Models\Quiz;
-use Illuminate\Support\Facades\Auth;
-use Livewire\Volt\Component;
-
-new class extends Component {
-    public $totalQuizzes;
-    public $publicQuizzes;
-    public $recentQuizzes;
-
-    public function mount()
-    {
-        $this->totalQuizzes = Quiz::where('created_by', Auth::id())->count();
-        $this->publicQuizzes = Quiz::where('created_by', Auth::id())->where('is_public', true)->count();
-        $this->recentQuizzes = Quiz::where('created_by', Auth::id())
-            ->orderBy('updated_at', 'desc')
-            ->limit(5)
-            ->get();
-    }
-
-    public function deleteQuiz($quizId)
-    {
-        $quiz = Quiz::findOrFail($quizId);
-        $quiz->delete();
-        $this->recentQuizzes = Quiz::where('created_by', Auth::id())
-            ->orderBy('updated_at', 'desc')
-            ->limit(5)
-            ->get();
-        $this->totalQuizzes = Quiz::where('created_by', Auth::id())->count();
-        $this->publicQuizzes = Quiz::where('created_by', Auth::id())->where('is_public', true)->count();
-    }
-}; ?>
-
-<x-layouts.app :title="__('Dashboard')">
-    <div class="w-full p-6 bg-[var(--background)] rounded-lg shadow-inner">
+<div>
+        <div class="w-full p-6 bg-[var(--background)] rounded-lg shadow-inner">
         <div class="mb-6">
             <h1 class="text-2xl font-bold text-[var(--foreground)]">Dashboard</h1>
             <p class="mt-1 text-sm text-[var(--foreground)]">Welcome back! Here's an overview of your quizzes.</p>
@@ -88,7 +54,7 @@ new class extends Component {
                             <dl>
                                 <dt class="text-sm font-medium text-[var(--foreground)] truncate">Total Questions</dt>
                                 <dd class="text-lg font-medium text-[var(--foreground)]">
-                                    {{ Quiz::where('created_by', Auth::id())->get()->sum(function($quiz) { return $quiz->questions->count(); }) }}
+                                    {{ \App\Models\Quiz::where('created_by', \Illuminate\Support\Facades\Auth::id())->get()->sum(function($quiz) { return $quiz->questions->count(); }) }}
                                 </dd>
                             </dl>
                         </div>
@@ -140,7 +106,7 @@ new class extends Component {
             </div>
             <div class="divide-y divide-[var(--border-color)]">
                 @foreach($recentQuizzes as $quiz)
-                <div class="px-6 py-4 hover:bg-[var(--color-tertiary)]">
+                <div class="px-6 py-4 hover:bg-[var(--color-tertiary)]" wire:key="dashboard-quiz-{{ $quiz->id }}">
                     <div class="flex items-center justify-between">
                         <div class="flex-1 min-w-0">
                             <h3 class="text-sm font-medium text-[var(--foreground)] truncate">{{ $quiz->title }}</h3>
@@ -150,17 +116,18 @@ new class extends Component {
                             </div>
                         </div>
                         <div class="flex items-center space-x-2">
-                            @if($quiz->created_by == Auth::id())
+                            @if($quiz->created_by == \Illuminate\Support\Facades\Auth::id())
                                 <a wire:navigate href="{{ route('quizzes.edit', $quiz->id) }}" class="text-[var(--foreground)] hover:text-[var(--foreground)] text-sm font-medium">Edit</a>
                             @endif
                             <a wire:navigate href="{{ route('quiz.show', $quiz->id) }}" class="text-[var(--color-primary)] hover:underline text-sm font-medium ml-2">View</a>
-                            <form wire:submit.prevent="deleteQuiz({{ $quiz->id }})" class="inline ml-2">
-                                <button type="submit"
-                                    onclick="return confirm('Are you sure you want to delete this quiz?');"
-                                    class="text-[var(--color-danger)] hover:underline text-sm font-medium">
-                                    Delete
-                                </button>
-                            </form>
+                            <button
+                                wire:click="deleteQuiz({{ $quiz->id }})"
+                                onclick="return confirm('Are you sure you want to delete this quiz?')"
+                                class="text-[var(--color-danger)] hover:underline text-sm font-medium ml-2"
+                                type="button"
+                            >
+                                Delete
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -169,4 +136,4 @@ new class extends Component {
         </div>
         @endif
     </div>
-</x-layouts.app>
+</div>

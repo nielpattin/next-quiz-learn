@@ -8,13 +8,9 @@ Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
-Route::get('/dashboard', function () {
-    $totalQuizzes = Quiz::count();
-    $publicQuizzes = Quiz::where('is_public', true)->count();
-    $recentQuizzes = Quiz::latest()->take(5)->get();
-
-    return view('dashboard', compact('totalQuizzes', 'publicQuizzes', 'recentQuizzes'));
-})->middleware(['auth', 'verified', \App\Http\Middleware\AdminMiddleware::class])->name('dashboard');
+Route::get('/dashboard', \App\Livewire\Dashboard::class)
+    ->middleware(['auth', 'verified', \App\Http\Middleware\AdminMiddleware::class])
+    ->name('dashboard');
 
 Route::middleware(['auth'])->group(function () {
     // Quiz management routes
