@@ -11,7 +11,7 @@ new class extends Component {
     public string $description = '';
     public string $category = '';
     public string $difficulty_level = 'medium';
-    public int $time_limit = 30;
+    public bool $is_pro = false;
     public $questions;
 
     public function mount(Quiz $quiz): void
@@ -34,7 +34,7 @@ new class extends Component {
         $this->description = $this->quiz->description ?? '';
         $this->category = $this->quiz->category ?? '';
         $this->difficulty_level = $this->quiz->difficulty_level;
-        $this->time_limit = $this->quiz->time_limit;
+        $this->is_pro = $this->quiz->is_pro;
     }
 
     /**
@@ -86,7 +86,7 @@ new class extends Component {
             'description' => 'nullable|string|max:200',
             'category' => 'nullable|string|max:100',
             'difficulty_level' => 'required|in:easy,medium,hard',
-            'time_limit' => 'required|integer|min:1|max:180',
+            'is_pro' => 'boolean',
         ]);
 
         $this->quiz->update($validated);
@@ -141,19 +141,21 @@ new class extends Component {
 
                 <div>
                     <label for="difficulty_level" class="block text-sm font-medium text-[var(--foreground)]">Difficulty Level *</label>
-                    <select wire:model="difficulty_level" id="difficulty_level" class="mt-1 block w-full px-3 py-2 border border-[var(--border-color)] rounded-md shadow-sm focus:outline-none focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)] bg-[var(--card-background)] text-[var(--foreground)]">
-                        <option value="easy">Easy</option>
-                        <option value="medium">Medium</option>
-                        <option value="hard">Hard</option>
-                    </select>
+                    <div class="flex items-center space-x-3">
+                        <select wire:model="difficulty_level" id="difficulty_level" class="mt-1 block w-full px-3 py-2 border border-[var(--border-color)] rounded-md shadow-sm focus:outline-none focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)] bg-[var(--card-background)] text-[var(--foreground)]">
+                            <option value="easy">Easy</option>
+                            <option value="medium">Medium</option>
+                            <option value="hard">Hard</option>
+                        </select>
+                        <label class="flex items-center space-x-2">
+                            <input type="checkbox" wire:model="is_pro" class="rounded border-[var(--border-color)] text-[var(--color-accent)] focus:ring-[var(--color-accent)]">
+                            <span class="text-xs text-[var(--foreground)]">Pro Only</span>
+                        </label>
+                    </div>
                     @error('difficulty_level') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                    @error('is_pro') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                 </div>
 
-                <div>
-                    <label for="time_limit" class="block text-sm font-medium text-[var(--foreground)]">Time Limit (minutes) *</label>
-                    <input wire:model="time_limit" id="time_limit" type="number" min="1" max="180" class="mt-1 block w-full px-3 py-2 border border-[var(--border-color)] rounded-md shadow-sm focus:outline-none focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)] bg-[var(--card-background)] text-[var(--foreground)]">
-                    @error('time_limit') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-                </div>
 
             </div>
         </div>

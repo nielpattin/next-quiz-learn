@@ -15,7 +15,6 @@ new class extends Component {
                 'description' => '',
                 'category' => '',
                 'difficulty_level' => 'medium',
-                'time_limit' => 30,
                 'is_active' => false, // Start as draft
                 'created_by' => Auth::id(),
                 

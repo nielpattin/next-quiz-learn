@@ -15,6 +15,12 @@
                     </svg>
                     {{ __('Dashboard') }}
                 </a>
+                <a wire:navigate href="{{ route('admin.users') }}" class="flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-[var(--color-tertiary)] hover:text-[var(--foreground)] {{ request()->routeIs('admin.users') ? 'bg-[var(--card-background)] text-[var(--foreground)]' : 'text-[var(--foreground)]' }}">
+                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87M16 3.13a4 4 0 010 7.75M8 3.13a4 4 0 000 7.75"></path>
+                    </svg>
+                    {{ __('Users') }}
+                </a>
             @endif
             <a wire:navigate href="{{ route('quizzes.index') }}" class="flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-[var(--color-tertiary)] hover:text-[var(--foreground)] {{ request()->routeIs('quizzes.index') ? 'bg-[var(--card-background)] text-[var(--foreground)]' : 'text-[var(--foreground)]' }}">
                 <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">

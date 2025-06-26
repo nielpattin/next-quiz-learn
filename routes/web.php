@@ -31,11 +31,19 @@ Route::middleware(['auth'])->group(function () {
     Volt::route('quizzes/{quiz}/questions/create', 'question.create')->name('questions.create');
     Volt::route('quizzes/{quiz}/questions/{question}/edit', 'question.edit')->name('questions.edit');
 
+    // Admin users management
+    Route::get('/admin/users', \App\Livewire\Admin\ManageUsers::class)
+        ->middleware(\App\Http\Middleware\AdminMiddleware::class)
+        ->name('admin.users');
+
     // Settings routes
     Route::redirect('settings', 'settings/profile');
     Volt::route('settings/profile', 'settings.profile')->name('settings.profile');
     Volt::route('settings/password', 'settings.password')->name('settings.password');
     Volt::route('settings/appearance', 'settings.appearance')->name('settings.appearance');
 });
+Route::get('/subscription/join', function () {
+    return view('subscription.join');
+})->name('subscription.join');
 
 require __DIR__.'/auth.php';

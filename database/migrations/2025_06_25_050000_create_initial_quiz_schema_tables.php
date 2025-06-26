@@ -86,7 +86,6 @@ return new class extends Migration
             $table->bigInteger('created_by')->unsigned();
             $table->string('category')->nullable();
             $table->string('difficulty_level')->default('medium');
-            $table->integer('time_limit')->default(30);
             $table->timestamps();
             $table->index(['created_by', 'created_at']);
             $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');

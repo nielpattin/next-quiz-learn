@@ -23,6 +23,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'subscription',
     ];
 
     /**
@@ -45,7 +46,24 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'subscription' => 'string',
+            'credit' => 'integer',
         ];
+    }
+
+    public function isPro(): bool
+    {
+        return $this->subscription === 'Pro' || $this->subscription === 'Pro+';
+    }
+
+    public function isFree(): bool
+    {
+        return $this->subscription === 'Free' || $this->subscription === null;
+    }
+
+    public function isProPlus(): bool
+    {
+        return $this->subscription === 'Pro+';
     }
 
     /**

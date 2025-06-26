@@ -116,7 +116,6 @@ erDiagram
         title varchar
         description text
         is_public boolean
-        time_limit integer
         difficulty_level varchar
         category varchar
         created_by bigint
@@ -174,7 +173,6 @@ erDiagram
 // Example validation rules
 'title' => 'required|string|max:255',
 'description' => 'nullable|string|max:1000',
-'time_limit' => 'required|integer|min:1|max:300',
 ```
 
 ### 2. Authorization Policies

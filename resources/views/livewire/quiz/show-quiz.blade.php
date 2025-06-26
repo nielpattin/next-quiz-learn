@@ -8,34 +8,30 @@
     <p class="text-lg text-foreground">{{ $quiz->description }}</p>
 
     <div class="mt-8">
-        <h2 class="text-xl font-semibold mb-2 text-foreground">Quiz Attempts</h2>
-        @php
-            $attempts = $quiz->quizAttempts()->with('user')->orderByDesc('created_at')->get();
-        @endphp
-        @if ($attempts->isEmpty())
-            <p class="text-foreground">No attempts yet.</p>
+        @if($quiz->is_pro && !(auth()->check() && auth()->user()->isPro()))
+            <div class="bg-[var(--color-accent)] text-[var(--button-primary-foreground)] p-4 rounded mb-4">
+                <p class="mb-2">This quiz is for Pro users only.</p>
+                <a href="{{ route('subscription.join') }}"
+                   class="inline-block px-4 py-2 rounded bg-[var(--color-primary)] text-[var(--button-primary-foreground)] hover:bg-[var(--color-tertiary)] transition">
+                   Join Pro
+                </a>
+            </div>
         @else
-            <div class="overflow-x-auto">
-                <table class="min-w-full bg-card-bg text-card-text rounded-lg shadow border border-border-color">
-                    <thead>
-                        <tr>
-                            <th class="px-4 py-2 text-left">User</th>
-                            <th class="px-4 py-2 text-left">Score</th>
-                            <th class="px-4 py-2 text-left">Started At</th>
-                            <th class="px-4 py-2 text-left">Completed At</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($attempts as $attempt)
-                            <tr>
-                                <td class="px-4 py-2">{{ $attempt->user->name ?? 'Unknown' }}</td>
-                                <td class="px-4 py-2">{{ $attempt->score ?? '-' }}</td>
-                                <td class="px-4 py-2">{{ $attempt->started_at ? $attempt->started_at->format('Y-m-d H:i') : '-' }}</td>
-                                <td class="px-4 py-2">{{ $attempt->completed_at ? $attempt->completed_at->format('Y-m-d H:i') : '-' }}</td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+            {{-- Show questions here --}}
+            <div class="bg-[var(--background)] p-4 rounded shadow">
+                <h2 class="text-xl font-semibold mb-2 text-foreground">Questions</h2>
+                @foreach($quiz->getOrderedQuestions() as $question)
+                    <div class="mb-4">
+                        <div class="font-medium text-[var(--foreground)]">{{ $question->question }}</div>
+                        @if($question->quizQuestionOptions && count($question->quizQuestionOptions) > 0)
+                            <ul class="list-disc ml-6 mt-1 text-[var(--foreground)]">
+                                @foreach($question->quizQuestionOptions as $option)
+                                    <li>{{ $option->option_text }}</li>
+                                @endforeach
+                            </ul>
+                        @endif
+                    </div>
+                @endforeach
             </div>
         @endif
     </div>

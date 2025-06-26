@@ -22,8 +22,8 @@ class Quiz extends Model
         'created_by',
         'difficulty_level',
         'category',
-        'time_limit',
-        'is_public', // Add this line
+        'is_public',
+        'is_pro',
     ];
 
     /**
@@ -32,10 +32,10 @@ class Quiz extends Model
      * @var array<string, string>
      */
     protected $casts = [
-        'time_limit' => 'integer',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
-        'is_public' => 'boolean', // Add this line
+        'is_public' => 'boolean',
+        'is_pro' => 'boolean',
     ];
 
     /**
