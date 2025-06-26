@@ -1,32 +1,43 @@
-# syntax=docker/dockerfile:1
+FROM php:8.3.11-fpm
 
-FROM php:8.2-fpm
+# Update package list and install dependencies
+RUN apt-get update && apt-get install -y \
+    libzip-dev \
+    libpng-dev \
+    postgresql-client \
+    libpq-dev \
+    nodejs \
+    npm \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
-WORKDIR /var/www
+# Install Composer
+COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
-RUN apt-get update \
-    && apt-get install -y \
-        git \
-        unzip \
-        libpng-dev \
-        libonig-dev \
-        libxml2-dev \
-        zip \
-        curl \
-        npm \
-    && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
+ENV COMPOSER_ALLOW_SUPERUSER=1
 
-COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+# Install required packages
+RUN docker-php-ext-install pdo pgsql pdo_pgsql gd bcmath zip \
+    && pecl install redis \
+    && docker-php-ext-enable redis
 
-COPY . .
+WORKDIR /usr/share/nginx/html/
 
-RUN composer install --no-interaction --prefer-dist --optimize-autoloader
+# Copy the codebase
+COPY . ./
 
-RUN npm install && npm run build
+# Run composer install for production and give permissions
+RUN mkdir -p storage/framework/sessions storage/framework/views storage/framework/cache     && sed 's_@php artisan package:discover_/bin/true_;' -i composer.json     && composer install --ignore-platform-req=php --no-dev --optimize-autoloader     && composer clear-cache     && php artisan package:discover --ansi
 
-RUN chown -R www-data:www-data /var/www \
-    && chmod -R 755 /var/www/storage
+# Set proper permissions for Laravel storage and cache directories
+RUN chown -R www-data:www-data storage bootstrap/cache && chmod -R 775 storage bootstrap/cache
 
-EXPOSE 9000
+# Copy entrypoint
+COPY ./scripts/php-fpm-entrypoint /usr/local/bin/php-entrypoint
+
+# Give permisisons to everything in bin/
+RUN chmod a+x /usr/local/bin/*
+
+ENTRYPOINT ["/usr/local/bin/php-entrypoint"]
 
 CMD ["php-fpm"]
