@@ -116,10 +116,21 @@ new class extends Component {
                         </div>
                         
                         <div class="flex items-center justify-between mt-4">
-                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $quiz->is_public ? 'bg-[var(--color-tertiary)] text-[var(--foreground)]' : 'bg-[var(--background)] text-[var(--foreground)]' }}">
-                                {{ $quiz->is_public ? 'Public' : 'Private' }}
-                            </span>
-                            
+                            <div class="flex items-center gap-2">
+                                @if (!empty($quiz->category))
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-[var(--color-primary)] text-[var(--button-primary-foreground)]">
+                                        {{ ucfirst($quiz->category) }}
+                                    </span>
+                                @endif
+                                @if (!empty($quiz->difficulty_level))
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-[var(--color-secondary)] text-[var(--foreground)]">
+                                        {{ ucfirst($quiz->difficulty_level) }}
+                                    </span>
+                                @endif
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $quiz->is_public ? 'bg-[var(--color-tertiary)] text-[var(--foreground)]' : 'bg-[var(--background)] text-[var(--foreground)]' }}">
+                                    {{ $quiz->is_public ? 'Public' : 'Private' }}
+                                </span>
+                            </div>
                             <livewire:quiz.quiz-actions :quiz="$quiz" wire:key="quiz-actions-{{ $quiz->id }}" class="cursor-pointer" />
                         </div>
                     </div>

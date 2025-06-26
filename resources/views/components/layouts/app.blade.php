@@ -16,7 +16,7 @@
     </div>
     @livewireScripts
     <div x-data="{ toasts: [] }"
-        @toast.window="let newToast = { id: Date.now(), message: $event.detail.message, type: $event.detail.type || 'success' }; toasts.push(newToast); setTimeout(() => toasts = toasts.filter(toast => toast.id !== newToast.id), 5000);"
+        @toast.window="let newToast = { id: Date.now(), message: $event.detail.message, type: $event.detail.type || 'success' }; toasts.push(newToast); setTimeout(() => toasts = toasts.filter(toast => toast.id !== newToast.id), 3000);"
         class="fixed top-0 right-0 p-4 z-50 w-full max-w-xs">
         <template x-for="toast in toasts" :key="toast.id">
             <div :class="{
