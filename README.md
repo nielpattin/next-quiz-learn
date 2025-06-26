@@ -178,8 +178,3 @@ Toàn bộ chức năng CRUD và làm bài được triển khai qua Livewire SP
 - Migration files cho tất cả các bảng ([`database/migrations/`](database/migrations/)), đảm bảo có thể tái tạo schema đầy đủ.
 - Relationships định nghĩa rõ ràng trong các Model, hỗ trợ truy vấn liên kết hiệu quả.
 - Seeders cho dữ liệu mẫu ([`database/seeders/`](database/seeders/)), thuận tiện cho việc thử nghiệm và demo.
-
-## 7. Cập nhật ReadMe.md với các nội dung trên, và public link của trang web
-
-- README.md này đã cập nhật đầy đủ nội dung yêu cầu, trình bày rõ ràng từng tiêu chí.
-- **Public Demo:** [GitHub Codespaces](https://github.com/codespaces) (Cập nhật link nếu có)
