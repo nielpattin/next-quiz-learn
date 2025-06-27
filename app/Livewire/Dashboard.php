@@ -11,6 +11,7 @@ class Dashboard extends Component
     public $totalQuizzes;
     public $publicQuizzes;
     public $recentQuizzes;
+    public $totalUsers;
 
     public function mount()
     {
@@ -25,6 +26,7 @@ class Dashboard extends Component
             $this->recentQuizzes = Quiz::orderBy('updated_at', 'desc')
                 ->limit(5)
                 ->get();
+            $this->totalUsers = \App\Models\User::count();
         } else {
             $this->totalQuizzes = Quiz::where('created_by', Auth::id())->count();
             $this->publicQuizzes = Quiz::where('created_by', Auth::id())->where('is_public', true)->count();

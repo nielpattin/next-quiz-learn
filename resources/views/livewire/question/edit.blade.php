@@ -164,6 +164,21 @@ new class extends Component {
             <span>/</span>
             <span class="text-[var(--text-foreground)]">Edit Question</span>
         </nav>
+        <div class="flex items-center justify-between my-4">
+            <div class="flex items-center space-x-4">
+                <button type="button"
+                        wire:click="deleteQuestion"
+                        wire:confirm="Are you sure you want to delete this question? This action cannot be undone."
+                        class="px-4 py-2 rounded-md shadow-sm text-sm font-medium text-[var(--button-primary-foreground)] bg-[var(--button-primary-background)] hover:bg-[var(--color-tertiary)] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                    <span wire:loading.remove wire:target="deleteQuestion">Delete Question</span>
+                    <span wire:loading wire:target="deleteQuestion">Deleting...</span>
+                </button>
+            </div>
+            <button type="submit" form="update-question-form" class="px-4 py-2 bg-[var(--button-primary-background)] hover:bg-[var(--color-tertiary)] text-[var(--button-primary-foreground)] font-medium rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-accent)]">
+                <span wire:loading.remove wire:target="updateQuestion">Save Changes</span>
+                <span wire:loading wire:target="updateQuestion">Saving...</span>
+            </button>
+        </div>
         <div class="flex items-center justify-between">
             <div>
                 <h1 class="text-2xl font-bold text-[var(--text-foreground)]">Edit Question</h1>
@@ -173,7 +188,7 @@ new class extends Component {
     </div>
 
 
-    <form wire:submit="updateQuestion" class="space-y-6">
+    <form wire:submit="updateQuestion" id="update-question-form" class="space-y-6">
         <div class="shadow rounded-lg p-6">
             <div class="space-y-6">
                 <div>
@@ -219,10 +234,8 @@ new class extends Component {
                                        class="flex-1 px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)] bg-[var(--card-background)] text-[var(--text-foreground)]">
                                 @if ($type === 'multiple_choice' && count($options) > 2)
                                     <button type="button" wire:click="removeOption({{ $optionIndex }})" class="text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300 p-1">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                                        </svg>
-                                    </button>
+                                    <x-lucide-x class="w-4 h-4" />
+                                </button>
                                 @endif
                             </div>
                             @error("options.{$optionIndex}") <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
@@ -240,23 +253,5 @@ new class extends Component {
             </div>
         </div>
     
-        <div class="flex items-center justify-between">
-            <div class="flex items-center space-x-4">
-                <a wire:navigate href="{{ route('quizzes.edit', $quiz) }}" class="px-4 py-2 rounded-md shadow-sm text-sm font-medium dark:bg-[var(--background)] dark:text-[var(--text-foreground)] hover:bg-[var(--color-tertiary)] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-primary)]">
-                    Back to Quiz
-                </a>
-                <button type="button"
-                        wire:click="deleteQuestion"
-                        wire:confirm="Are you sure you want to delete this question? This action cannot be undone."
-                        class="px-4 py-2 border border-red-300 rounded-md shadow-sm text-sm font-medium text-red-700 dark:bg-[var(--background)] dark:text-[var(--text-foreground)] hover:bg-[var(--color-tertiary)] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
-                    <span wire:loading.remove wire:target="deleteQuestion">Delete Question</span>
-                    <span wire:loading wire:target="deleteQuestion">Deleting...</span>
-                </button>
-            </div>
-            <button type="submit" class="px-6 py-2 bg-[var(--color-accent)] hover:bg-[var(--color-tertiary)] text-[var(--accent-foreground)] font-medium rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-accent)]">
-                <span wire:loading.remove wire:target="updateQuestion">Save Changes</span>
-                <span wire:loading wire:target="updateQuestion">Saving...</span>
-            </button>
-        </div>
-    </form>
+        </form>
 </div>

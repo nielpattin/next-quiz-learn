@@ -17,7 +17,7 @@
             @foreach ($quizzes as $quiz)
                 <div class="bg-card-bg text-card-text rounded-lg shadow-lg p-6 border border-border-color">
                     <div class="flex items-center justify-between mb-1">
-                        <h2 class="text-2xl font-semibold">{{ $quiz->title }}</h2>
+                        <h2 class="text-2xl font-semibold">{{ $quiz->title }} <span class="bg-blue-500 text-white text-sm px-2 py-1 rounded-full ml-2">{{ ucfirst($quiz->difficulty_level) }}</span></h2>
                         @if($quiz->is_pro)
                             <span class="bg-[var(--color-accent)] text-[var(--button-primary-foreground)] px-2 py-1 rounded text-xs ml-2">Pro Only</span>
                         @endif

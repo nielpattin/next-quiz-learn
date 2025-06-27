@@ -106,11 +106,20 @@ new class extends Component {
             <span>/</span>
             <span class="text-[var(--foreground)]">New Question</span>
         </nav>
+        <div class="flex items-center justify-between my-4">
+            <a wire:navigate href="{{ route('quizzes.edit', $quiz) }}" class="px-4 py-2 border border-[var(--border-color)] rounded-md shadow-sm text-sm font-medium text-[var(--foreground)] bg-[var(--card-background)] hover:bg-[var(--color-tertiary)] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-primary)]">
+                Cancel
+            </a>
+            <button type="submit" form="create-question-form" class="px-6 py-2 bg-[var(--color-primary)] hover:bg-[var(--color-tertiary)] text-[var(--button-primary-foreground)] font-medium rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-primary)]">
+                <span wire:loading.remove>Create Question</span>
+                <span wire:loading>Creating...</span>
+            </button>
+        </div>
         <h1 class="text-2xl font-bold text-[var(--foreground)]">Add Question</h1>
         <p class="mt-1 text-sm text-[var(--foreground)]">Create a new question for "{{ $quiz->title }}"</p>
     </div>
 
-    <form wire:submit="createQuestion" class="space-y-6">
+    <form wire:submit="createQuestion" id="create-question-form" class="space-y-6">
         <div class="bg-[var(--background)] shadow rounded-lg p-6">
             <div class="space-y-6">
                 <div>
@@ -151,9 +160,7 @@ new class extends Component {
                                    class="flex-1 px-3 py-2 border border-[var(--border-color)] rounded-md shadow-sm focus:outline-none focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)] bg-[var(--card-background)] text-[var(--foreground)]">
                             @if ($type === 'multiple_choice' && count($options) > 2)
                                 <button type="button" wire:click="removeOption({{ $optionIndex }})" class="text-red-600 hover:text-red-800 p-1">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                                    </svg>
+                                    <x-lucide-x class="w-4 h-4" />
                                 </button>
                             @endif
                         </div>
@@ -169,16 +176,6 @@ new class extends Component {
                     @error('explanation') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                 </div>
             </div>
-        </div>
-
-        <div class="flex items-center justify-between">
-            <a wire:navigate href="{{ route('quizzes.edit', $quiz) }}" class="px-4 py-2 border border-[var(--border-color)] rounded-md shadow-sm text-sm font-medium text-[var(--foreground)] bg-[var(--card-background)] hover:bg-[var(--color-tertiary)] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-primary)]">
-                Cancel
-            </a>
-            <button type="submit" class="px-6 py-2 bg-[var(--color-primary)] hover:bg-[var(--color-tertiary)] text-[var(--button-primary-foreground)] font-medium rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-primary)]">
-                <span wire:loading.remove>Create Question</span>
-                <span wire:loading>Creating...</span>
-            </button>
         </div>
     </form>
 </div>

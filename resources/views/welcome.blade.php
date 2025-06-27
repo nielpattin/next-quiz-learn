@@ -55,33 +55,10 @@
                     <div class="relative flex flex-col items-center w-full">
                         <div class="flex justify-center w-full">
                             <div class="relative -mt-16 mb-2 z-10">
-                                <svg class="w-28 h-28 drop-shadow-lg animate-bounce" viewBox="0 0 112 112" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <ellipse cx="56" cy="56" rx="54" ry="54" fill="url(#paint0_radial)" />
-                                    <ellipse cx="56" cy="56" rx="38" ry="38" fill="url(#paint1_radial)" />
-                                    <ellipse cx="56" cy="56" rx="18" ry="18" fill="url(#paint2_radial)" />
-                                    <ellipse cx="56" cy="56" rx="8" ry="8" fill="url(#paint3_radial)" />
-                                    <defs>
-                                        <radialGradient id="paint0_radial" cx="0" cy="0" r="1" gradientTransform="translate(56 56) rotate(90) scale(54)">
-                                            <stop stop-color="var(--color-primary)" />
-                                            <stop offset="1" stop-color="var(--color-accent)" />
-                                        </radialGradient>
-                                        <radialGradient id="paint1_radial" cx="0" cy="0" r="1" gradientTransform="translate(56 56) rotate(90) scale(38)">
-                                            <stop stop-color="var(--color-secondary)" />
-                                            <stop offset="1" stop-color="var(--color-primary)" />
-                                        </radialGradient>
-                                        <radialGradient id="paint2_radial" cx="0" cy="0" r="1" gradientTransform="translate(56 56) rotate(90) scale(18)">
-                                            <stop stop-color="var(--color-accent)" />
-                                            <stop offset="1" stop-color="var(--color-secondary)" />
-                                        </radialGradient>
-                                        <radialGradient id="paint3_radial" cx="0" cy="0" r="1" gradientTransform="translate(56 56) rotate(90) scale(8)">
-                                            <stop stop-color="var(--color-primary)" />
-                                            <stop offset="1" stop-color="var(--color-accent)" />
-                                        </radialGradient>
-                                    </defs>
-                                </svg>
+                                <img src="{{ asset('images/quiz-learn-logo.png') }}" alt="Next Quiz Learn Logo" class="w-28 h-28 drop-shadow-lg animate-bounce">
                             </div>
                         </div>
-                        <div class="relative z-10 flex flex-col items-center">
+                        <div class="relative z-10 flex flex-col items-center mb-8">
                     <h1 class="text-3xl font-extrabold tracking-tight text-center text-foreground dark:text-foreground drop-shadow-2xl mb-2">
                         Welcome to <span class="">Next Quiz Learn!</span>
                     </h1>
@@ -89,9 +66,7 @@
                         Fun, cute, and powerful quizzes for everyone. Challenge yourself, learn new things, and join our playful community!
                     </p>
                     <a href="{{ route('register') }}" class="inline-flex items-center gap-2 px-6 py-2 rounded-full bg-primary text-primary-foreground shadow-lg hover:scale-105 hover:shadow-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 dark:focus:ring-offset-background text-base font-semibold mt-2">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-                        </svg>
+                        <x-lucide-arrow-right class="w-5 h-5" />
                         Get Started
                     </a>
                 </div>
@@ -100,33 +75,22 @@
             <section class="flex-1 flex flex-col items-center justify-center gap-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
                     <div class="rounded-xl bg-card-bg dark:bg-card-bg shadow-lg ring-1 ring-border/10 dark:ring-border/20 p-6 flex flex-col items-center hover:scale-105 hover:shadow-xl transition-all duration-200">
-                        <svg class="w-10 h-10 mb-2 text-primary" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
-                        </svg>
+                        <x-lucide-users class="w-10 h-10 mb-2 text-primary" />
                         <h2 class="font-bold text-lg text-foreground mb-1">Create Quizzes</h2>
                         <p class="text-muted-foreground text-center text-sm">Design your own quizzes and share them with friends or the world.</p>
                     </div>
                     <div class="rounded-xl bg-card-bg dark:bg-card-bg shadow-lg ring-1 ring-border/10 dark:ring-border/20 p-6 flex flex-col items-center hover:scale-105 hover:shadow-xl transition-all duration-200">
-                        <svg class="w-10 h-10 mb-2 text-accent" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2l4-4"/>
-                        </svg>
+                        <x-lucide-play class="w-10 h-10 mb-2 text-accent" />
                         <h2 class="font-bold text-lg text-foreground mb-1">Play & Compete</h2>
                         <p class="text-muted-foreground text-center text-sm">Take quizzes, earn points, and climb the leaderboard. Learning is fun!</p>
                     </div>
                     <div class="rounded-xl bg-card-bg dark:bg-card-bg shadow-lg ring-1 ring-border/10 dark:ring-border/20 p-6 flex flex-col items-center hover:scale-105 hover:shadow-xl transition-all duration-200">
-                        <svg class="w-10 h-10 mb-2 text-secondary" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <circle cx="12" cy="12" r="10"/>
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M8 15h8M9 9h6"/>
-                        </svg>
+                        <x-lucide-bar-chart-2 class="w-10 h-10 mb-2 text-secondary" />
                         <h2 class="font-bold text-lg text-foreground mb-1">Track Progress</h2>
                         <p class="text-muted-foreground text-center text-sm">Monitor your learning journey and celebrate your achievements.</p>
                     </div>
                     <div class="rounded-xl bg-card-bg dark:bg-card-bg shadow-lg ring-1 ring-border/10 dark:ring-border/20 p-6 flex flex-col items-center hover:scale-105 hover:shadow-xl transition-all duration-200">
-                        <svg class="w-10 h-10 mb-2 text-primary" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a4 4 0 00-3-3.87"/>
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 20H4v-2a4 4 0 013-3.87"/>
-                            <circle cx="12" cy="7" r="4"/>
-                        </svg>
+                        <x-lucide-edit class="w-10 h-10 mb-2 text-primary" />
                         <h2 class="font-bold text-lg text-foreground mb-1">Join Community</h2>
                         <p class="text-muted-foreground text-center text-sm">Connect, compete, and collaborate with other quiz lovers.</p>
                     </div>

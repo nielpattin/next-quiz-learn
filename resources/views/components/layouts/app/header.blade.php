@@ -6,9 +6,7 @@
     <body class="min-h-screen bg-[var(--background)] dark:bg-[var(--background)]">
         <header class="container border-b border-[var(--border-color)] bg-[var(--background)] dark:border-[var(--border-color)] dark:bg-[var(--background)] flex items-center py-4">
             <button x-data @click="$dispatch('open-sidebar', 'left')" class="lg:hidden p-2 rounded-md hover:bg-[var(--color-tertiary)] dark:hover:bg-[var(--color-tertiary)]">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-                </svg>
+                <x-lucide-menu class="w-6 h-6" />
             </button>
 
             <a href="{{ route('dashboard') }}" class="ms-2 me-5 flex items-center space-x-2 rtl:space-x-reverse lg:ms-0" wire:navigate>
@@ -26,23 +24,17 @@
             <nav class="me-1.5 space-x-0.5 rtl:space-x-reverse flex items-center">
                 <div title="{{ __('Search') }}">
                     <a href="#" class="flex items-center justify-center h-10 w-10 rounded-md hover:bg-[var(--color-tertiary)] dark:hover:bg-[var(--color-tertiary)] text-[var(--foreground)] dark:text-[var(--foreground)]">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                          <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
-                        </svg>
+                        <x-lucide-search class="w-5 h-5" />
                     </a>
                 </div>
                 <div title="{{ __('Repository') }}">
                     <a href="https://github.com/laravel/livewire-starter-kit" target="_blank" class="max-lg:hidden flex items-center justify-center h-10 w-10 rounded-md hover:bg-[var(--color-tertiary)] dark:hover:bg-[var(--color-tertiary)] text-[var(--foreground)] dark:text-[var(--foreground)]">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                          <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12.75V12A2.25 2.25 0 0 1 4.5 9.75h15A2.25 2.25 0 0 1 21.75 12v.75m-8.69-6.44-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z" />
-                        </svg>
+                        <x-lucide-folder class="w-5 h-5" />
                     </a>
                 </div>
                 <div title="{{ __('Documentation') }}">
                     <a href="https://laravel.com/docs/starter-kits#livewire" target="_blank" class="max-lg:hidden flex items-center justify-center h-10 w-10 rounded-md hover:bg-[var(--color-tertiary)] dark:hover:bg-[var(--color-tertiary)] text-[var(--foreground)] dark:text-[var(--foreground)]">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                           <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6-2.292m0 0V21M12 6.042A8.967 8.967 0 0 1 18 3.75m-6 2.292V3.75m0 2.292L6 3.75m6 2.292L18 3.75" />
-                        </svg>
+                        <x-lucide-book-open class="w-5 h-5" />
                     </a>
                 </div>
             </nav>
