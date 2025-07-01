@@ -26,6 +26,7 @@ RUN composer install --no-dev --optimize-autoloader
 ENV WEB_DOCUMENT_ROOT=/app/public
 ENV APP_ENV=production
 ENV APP_DEBUG=false
+ENV NGINX_WEB_ROOT=/app/public
 
 # Optimize Laravel (commands moved to custom entrypoint script)
 

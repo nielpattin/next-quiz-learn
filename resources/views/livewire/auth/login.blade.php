@@ -25,7 +25,7 @@ new #[Layout('components.layouts.auth')] class extends Component {
             return;
         }
 
-        $this->redirectIntended(default: route('dashboard', absolute: false), navigate: true);
+        $this->redirectIntended(default: route('quizzes.browse', absolute: false), navigate: true);
     }
 }; ?>
 

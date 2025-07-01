@@ -9,6 +9,15 @@
 Người dùng có thể đăng ký tài khoản, tạo quiz, thêm câu hỏi, làm bài, xem lịch sử và phân tích kết quả.  
 Toàn bộ chức năng CRUD và làm bài được triển khai qua Livewire SPA, realtime, không sử dụng REST API truyền thống.
 
+## Demo ứng dụng
+- **Website**: [https://next-quiz-learn.onrender.com/](https://next-quiz-learn.onrender.com/)
+- **Tài khoản demo**:
+   - **Email**: `admin@gmail.com`
+   - **Mật khẩu**: `password`
+- **Tài khoản người dùng**:
+   - **Email**: `user@gmail.com`
+   - **Mật khẩu**: `password`
+
 ### Tính năng nổi bật
 
 - Đăng ký, đăng nhập, xác thực email, đổi mật khẩu, quản lý hồ sơ.
