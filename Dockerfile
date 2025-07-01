@@ -40,4 +40,6 @@ RUN chmod a+x /usr/local/bin/*
 
 ENTRYPOINT ["/usr/local/bin/php-entrypoint"]
 
+EXPOSE 8080
+
 CMD ["php-fpm"]
