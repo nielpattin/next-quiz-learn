@@ -1,20 +1,34 @@
-FROM richarvey/nginx-php-fpm:3.1.6
+FROM webdevops/php-nginx:8.3-alpine
 
-COPY . .
+# Set working directory
+WORKDIR /app
 
-# Image config
-ENV SKIP_COMPOSER 1
-ENV WEBROOT /var/www/html/public
-ENV PHP_ERRORS_STDERR 1
-ENV RUN_SCRIPTS 1
-ENV REAL_IP_HEADER 1
+# Install additional dependencies as root
+USER root
+RUN apk add --no-cache postgresql-client libpq php83-pdo php83-pdo_pgsql \
+    && mkdir -p /app/storage/framework/cache /app/storage/framework/sessions /app/storage/framework/views /app/bootstrap/cache \
+    && chown -R application:application /app \
+    && chmod -R 775 /app/storage /app/bootstrap/cache
 
-# Laravel config
-ENV APP_ENV production
-ENV APP_DEBUG false
-ENV LOG_CHANNEL stderr
+# Copy application code
+COPY --chown=application:application . .
 
-# Allow composer to run as root
-ENV COMPOSER_ALLOW_SUPERUSER 1
+# Install Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-CMD ["/start.sh"]
+# Install Composer dependencies
+RUN composer install --no-dev --optimize-autoloader
+
+# Set environment variables for Laravel
+ENV WEB_DOCUMENT_ROOT=/app/public
+ENV APP_ENV=production
+ENV APP_DEBUG=false
+
+# Optimize Laravel (commands moved to custom entrypoint script)
+
+# Copy custom entrypoint script and make it executable
+COPY --chown=application:application docker-entrypoint-custom.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/docker-entrypoint-custom.sh
+
+# Set custom entrypoint
+CMD ["docker-entrypoint-custom.sh"]

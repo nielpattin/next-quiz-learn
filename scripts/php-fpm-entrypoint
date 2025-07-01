@@ -1,0 +1,17 @@
+#!/bin/bash
+set -e
+
+# Run Laravel migrations and seeders
+php artisan migrate:refresh --seed
+
+# Start PHP-FPM in the background
+php-fpm &
+
+# Start Nginx in the background
+nginx &
+
+# Wait for any process to exit
+wait -n
+
+# Exit with status of process that exited first
+exit $?
