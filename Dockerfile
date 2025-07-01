@@ -5,7 +5,7 @@ WORKDIR /app
 
 # Install additional dependencies as root
 USER root
-RUN apk add --no-cache postgresql-client libpq php83-pdo php83-pdo_pgsql \
+RUN apk add --no-cache postgresql-client libpq php83-pdo php83-pdo_pgsql nodejs npm \
     && mkdir -p /app/storage/framework/cache /app/storage/framework/sessions /app/storage/framework/views /app/bootstrap/cache \
     && chown -R application:application /app \
     && chmod -R 775 /app/storage /app/bootstrap/cache
@@ -14,7 +14,7 @@ RUN apk add --no-cache postgresql-client libpq php83-pdo php83-pdo_pgsql \
 COPY --chown=application:application . .
 
 # Install Node.js dependencies and build frontend assets
-RUN npm install --omit=dev && npm run build
+RUN npm install && npm run build
 
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
