@@ -6,8 +6,6 @@ storage/app/public
 storage/framework
 storage/logs
 .env
-.env.*
-.idea
 .vscode
 *.iml
 *.sublime*

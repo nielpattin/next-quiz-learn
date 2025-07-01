@@ -1,45 +1,20 @@
-FROM php:8.3.11-fpm
+FROM richarvey/nginx-php-fpm:3.1.6
 
-# Update package list and install dependencies
-RUN apt-get update && apt-get install -y \
-    libzip-dev \
-    libpng-dev \
-    postgresql-client \
-    libpq-dev \
-    nodejs \
-    npm \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+COPY . .
 
-# Install Composer
-COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
+# Image config
+ENV SKIP_COMPOSER 1
+ENV WEBROOT /var/www/html/public
+ENV PHP_ERRORS_STDERR 1
+ENV RUN_SCRIPTS 1
+ENV REAL_IP_HEADER 1
 
-ENV COMPOSER_ALLOW_SUPERUSER=1
+# Laravel config
+ENV APP_ENV production
+ENV APP_DEBUG false
+ENV LOG_CHANNEL stderr
 
-# Install required packages
-RUN docker-php-ext-install pdo pgsql pdo_pgsql gd bcmath zip \
-    && pecl install redis \
-    && docker-php-ext-enable redis
+# Allow composer to run as root
+ENV COMPOSER_ALLOW_SUPERUSER 1
 
-WORKDIR /usr/share/nginx/html/
-
-# Copy the codebase
-COPY . ./
-
-# Run composer install for production and give permissions
-RUN mkdir -p storage/framework/sessions storage/framework/views storage/framework/cache     && sed 's_@php artisan package:discover_/bin/true_;' -i composer.json     && composer install --ignore-platform-req=php --no-dev --optimize-autoloader     && composer clear-cache     && php artisan package:discover --ansi
-
-# Set proper permissions for Laravel storage and cache directories
-RUN chown -R www-data:www-data storage bootstrap/cache && chmod -R 775 storage bootstrap/cache
-
-# Copy entrypoint
-COPY ./scripts/php-fpm-entrypoint /usr/local/bin/php-entrypoint
-
-# Give permisisons to everything in bin/
-RUN chmod a+x /usr/local/bin/*
-
-ENTRYPOINT ["/usr/local/bin/php-entrypoint"]
-
-EXPOSE 8080
-
-CMD ["php-fpm"]
+CMD ["/start.sh"]
