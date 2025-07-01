@@ -41,4 +41,9 @@ Route::get('/subscription/join', function () {
     return view('subscription.join');
 })->name('subscription.join');
 
+Route::get('/env-check', function () {
+    return 'APP_ENV: ' . env('APP_ENV') . '<br>' .
+           'APP_URL: ' . env('APP_URL');
+});
+
 require __DIR__.'/auth.php';
