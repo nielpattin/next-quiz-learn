@@ -13,6 +13,9 @@ RUN apk add --no-cache postgresql-client libpq php83-pdo php83-pdo_pgsql \
 # Copy application code
 COPY --chown=application:application . .
 
+# Install Node.js dependencies and build frontend assets
+RUN npm install --omit=dev && npm run build
+
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
